@@ -12,6 +12,7 @@ import {
   View,
   Navigator
 } from 'react-native';
+import App from './src/screens/App.js';
 import Home from './src/screens/home.js';
 import Register from './src/screens/register.js';
 import Warning from './src/screens/warning.js';
@@ -31,15 +32,7 @@ export default class CReM_FRONTEND extends Component {
     renderScene(route,navigator){
         switch (route.index) {
             case 1:{
-                return (<Home navigator = {navigator}/>);
-                break;
-            }
-            case 2 :{
-                return (<Register navigator = {navigator}/>);
-                break;
-            }
-            case 3 :{
-                return (<Warning navigator = {navigator}/>);
+                return (<App navigator = {navigator}/>);
                 break;
             }
             default:{

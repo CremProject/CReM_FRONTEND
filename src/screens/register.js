@@ -29,12 +29,6 @@ const EvilIcon = require ('react-native-vector-icons/EvilIcons');
 export default class Register extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-          tab1: false,
-          tab2: false,
-          tab3: true,
-          tab4: false,
-        };
     }
 
     toggleTab1() {

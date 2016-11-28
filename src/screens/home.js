@@ -30,20 +30,6 @@ export default class Home extends Component{
 	render(){
 		return (
             <Container>
-                <Header searchBar rounded>
-                    <InputGroup>
-                        <Icon name="ios-search" />
-                        <Input placeholder="Search" />
-                        <Icon name="ios-people" />
-                        <Button transparent>
-                            <Icon name='ios-create'/>
-                        </Button>
-                    </InputGroup>
-                    <Button transparent>
-                        Search
-                    </Button>
-                </Header>
-
                 <Content style = {{margin : 5}}>
                     <View style ={{flex : 1,borderWidth : 1,backgroundColor : 'skyblue'}}>
                         <H3>Notification</H3>
@@ -69,74 +55,10 @@ export default class Home extends Component{
                               renderRow={(rowData) => <Text>{rowData}</Text>}
                             />
                     </View>
-                    {/* <H3>This is content section</H3>
-                    <Text style={{ marginTop: 10 }}>
-                       Selected tab is: {this.state.tab1 ? 1 : this.state.tab2 ? 2 : this.state.tab3 ? 3 : 4}
-                    </Text> */}
                 </Content>
-
-                <Footer>
-                    <FooterTab>
-                        <Button active={this.state.tab1}
-                            onPress={() => this.toggleTab1()}>
-                            <Icon name='ios-home' />
-                        </Button>
-                        <Button active={this.state.tab2}
-                            onPress={() => this.toggleTab2()}>
-                            <Icon name='ios-megaphone' />
-                        </Button>
-                        <Button active={this.state.tab3}
-                            onPress={() => this.toggleTab3()}>
-                            <Icon name='ios-calendar' />
-                        </Button>
-                        <Button active={this.state.tab4}
-                            onPress={() => this.toggleTab4()}>
-                            <Icon name='md-arrow-forward' />
-                        </Button>
-                    </FooterTab>
-                </Footer>
             </Container>
 		);
 	}
-    toggleTab1() {
-        this.setState({
-          tab1: true,
-          tab2: false,
-          tab3: false,
-          tab4: false,
-        });
-        this.props.navigator.push({index : 1});
-    }
-
-    toggleTab2() {
-        this.setState({
-          tab1: false,
-          tab2: true,
-          tab3: false,
-          tab4: false,
-        });
-        this.props.navigator.push({index : 2});
-    }
-
-    toggleTab3() {
-        this.setState({
-          tab1: false,
-          tab2: false,
-          tab3: true,
-          tab4: false,
-        });
-        this.props.navigator.push({index : 3});
-    }
-
-    toggleTab4() {
-        this.setState({
-          tab1: false,
-          tab2: false,
-          tab3: false,
-          tab4: true,
-        });
-        this.props.navigator.push({index : 4});
-    }
 
 
 }
