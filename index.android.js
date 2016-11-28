@@ -26,6 +26,10 @@ export default class CReM_FRONTEND extends Component {
           <Navigator
               initialRoute={{index : 0}}
               renderScene={this.renderScene}
+              configureScene={(route) => ({
+                  ...Navigator.SceneConfigs.HorizontalSwipeJump,
+                  gestures: false
+              })}
           />
       );
     }
@@ -33,6 +37,10 @@ export default class CReM_FRONTEND extends Component {
         switch (route.index) {
             case 1:{
                 return (<App navigator = {navigator}/>);
+                break;
+            }
+            case 2:{
+                return (<Register navigator = {navigator}/>);
                 break;
             }
             default:{

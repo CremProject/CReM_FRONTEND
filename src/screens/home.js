@@ -50,15 +50,16 @@ export default class Home extends Component{
                     </View>
                     <View name = "task" style = {styles.listTask} >
                         <Text>Danh sách việc trì hoãn</Text>
-                            <ListView
-                              dataSource={this.state.dataSource}
-                              renderRow={(rowData) => <Text>{rowData}</Text>}
-                            />
+                        <ListView
+                          dataSource={this.state.dataSource}
+                          renderRow={(rowData) => <Text>{rowData}</Text>}
+                        />
                     </View>
                 </Content>
             </Container>
 		);
 	}
+
 
 
 }

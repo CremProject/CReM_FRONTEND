@@ -22,12 +22,21 @@ export default class Login extends Component{
 				<H3>Hello Login !!</H3>
 				<Button
 					onPress={() => this.login()}
-					>LOGIN</Button>
+					>LOGIN
+                </Button>
+                <Button
+					onPress={() => this.register()}
+					>REGISTER
+                </Button>
 			</Content>
 		);
 	}
 	login(){
 		console.log("LOGIN!!");
 		this.props.navigator.push({index : 1});
+	}
+    register(){
+		console.log("REGISTER!!");
+		this.props.navigator.push({index : 2});
 	}
 }
