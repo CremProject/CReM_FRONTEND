@@ -28,7 +28,7 @@ export default class App extends Component{
     }
 	render(){
 		return (
-            <Container>
+            <View>
                 <Header searchBar rounded>
                     <InputGroup>
                         <Icon name="ios-search" />
@@ -41,35 +41,33 @@ export default class App extends Component{
                         Search
                     </Button>
                 </Header>
-
-                <Content>
-                    <ScrollableTabView
-                      style={{marginTop: 5, }}
-                      initialPage={0}
-                      renderTabBar={() => <IconBar />}>
-                        <ScrollView tabLabel="ios-home" style={styles.tabView}>
-                            <View>
-                                <Home />
-                            </View>
-                        </ScrollView>
-                        <ScrollView tabLabel="ios-megaphone" style={styles.tabView}>
-                          <View>
-                            <Warning />
-                          </View>
-                        </ScrollView>
-                        <ScrollView tabLabel="ios-calendar" style={styles.tabView}>
-                          <View style={styles.card}>
-                            <Text>Lịch</Text>
-                          </View>
-                        </ScrollView>
-                        <ScrollView tabLabel="md-arrow-round-forward" style={styles.tabView}>
-                          <View style={styles.card}>
-                            <Text>Forward</Text>
-                          </View>
-                        </ScrollView>
-                    </ScrollableTabView>
-                </Content>
-            </Container>
+                <ScrollableTabView
+                  style={{marginTop: 5,}}
+                  tabBarPosition= {'bottom'}
+                  initialPage={0}
+                  renderTabBar={() => <IconBar />}>
+                    <ScrollView tabLabel="ios-home" style={styles.tabView}>
+                        <View>
+                            <Home navigator = {this.props.navigator}/>
+                        </View>
+                    </ScrollView>
+                    <ScrollView tabLabel="ios-megaphone" style={styles.tabView}>
+                      <View>
+                        <Warning />
+                      </View>
+                    </ScrollView>
+                    <ScrollView tabLabel="ios-calendar" style={styles.tabView}>
+                      <View style={styles.card}>
+                        <Text>Lịch</Text>
+                      </View>
+                    </ScrollView>
+                    <ScrollView tabLabel="md-arrow-round-forward" style={styles.tabView}>
+                      <View style={styles.card}>
+                        <Text>Forward</Text>
+                      </View>
+                    </ScrollView>
+                </ScrollableTabView>
+            </View>
 		);
 	}
     register(){

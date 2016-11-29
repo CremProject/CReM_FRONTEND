@@ -31,28 +31,28 @@ export default class Home extends Component{
 		return (
             <Container>
                 <Content style = {{margin : 5}}>
-                    <View style ={{flex : 1,borderWidth : 1,backgroundColor : 'skyblue'}}>
+                    <View name = "notification" style = {styles.card}>
                         <H3>Notification</H3>
                     </View>
-                    <View name = "task" style = {styles.listTask} >
+                    <View name = "task" style = {styles.card} >
                         <Text>Danh sách việc thường ngày</Text>
                             <ListView
                               dataSource={this.state.dataSource}
                               renderRow={(rowData) => <Text>{rowData}</Text>}
                             />
                     </View>
-                    <View name = "task" style = {styles.listTask} >
+                    <View name = "task" style = {styles.card} >
                         <Text>Danh sách việc ngoài lề</Text>
                             <ListView
                               dataSource={this.state.dataSource}
                               renderRow={(rowData) => <Text>{rowData}</Text>}
                             />
                     </View>
-                    <View name = "task" style = {styles.listTask} >
+                    <View name = "task" style = {styles.card} >
                         <Text>Danh sách việc trì hoãn</Text>
                         <ListView
                           dataSource={this.state.dataSource}
-                          renderRow={(rowData) => <Text>{rowData}</Text>}
+                          renderRow={(rowData) =><Text>{rowData}</Text>}
                         />
                     </View>
                 </Content>
@@ -60,6 +60,11 @@ export default class Home extends Component{
 		);
 	}
 
+    // test(data){
+    //     console.log(data);
+    //     console.log(this.props.navigator);
+    //     this.props.navigator.push({index : 2});
+    // }
 
 
 }
