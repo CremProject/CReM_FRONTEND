@@ -15,6 +15,10 @@ import { Container, Header, Title,
 export default class Login extends Component{
 	constructor(props){
 		super(props);
+        this.state= {
+            user_name  : '',
+            password : '',
+        };
 	}
 	render(){
 		return (
@@ -24,7 +28,9 @@ export default class Login extends Component{
                     <H2 style = {{alignSelf : 'center'}}>CREM</H2>
                     <InputGroup iconRight success style = {{margin : 5,width : 200}}>
                         <Icon name='ios-checkmark-circle' style={{color:'#00C497'}}/>
-                        <Input placeholder='User name'/>
+                        <Input placeholder='User name'
+                            onChangeText = {(text)=>this.setState({user_name : text})}
+                            value = {this.state.user_name}/>
                     </InputGroup>
                     {/* hoặc */}
                     {/* <InputGroup iconRight error>
@@ -33,7 +39,9 @@ export default class Login extends Component{
                    </InputGroup> */}
                    <InputGroup iconRight success style = {{margin : 5,width : 200}}>
                        <Icon name='ios-checkmark-circle' style={{color:'#00C497'}}/>
-                       <Input placeholder='Password'/>
+                       <Input placeholder='Password' secureTextEntry
+                           onChangeText = {(text)=>this.setState({password : text})}
+                           value = {this.state.password}/>
                    </InputGroup>
     				<Button
     					onPress={() => this.login()}>
@@ -47,10 +55,32 @@ export default class Login extends Component{
 			</Content>
 		);
 	}
-	login(){
-		console.log("LOGIN!!");
+	login(username){
+        //id : 1 -BOD | 5-Employee |6-Manager
         //xu ly dang nhap 2 laoi user la employee va manager nhay toi 2 route khac nhau
-		this.props.navigator.push({index : 1});
+        var user_id = 0;
+        switch (username) {
+            case "BOD":{
+                user_id = 1;
+                break;
+            }
+            case "Manager":{
+                user_id = 6;
+                break;
+            }
+            default:{
+                user_id = 5;
+                break;
+            }
+
+        }
+		console.log("LOGIN!!");
+        //id : 1 -BOD | 5-Employee |6-Manager
+        //xu ly dang nhap 2 laoi user la employee va manager nhay toi 2 route khac nhau
+		this.props.navigator.push({
+            index : 1,
+            passProps:{user_id : user_id}
+        });
 	}
     register(){
 		console.log("REGISTER!!");

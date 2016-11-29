@@ -65,6 +65,4 @@ export default class Home extends Component{
     //     console.log(this.props.navigator);
     //     this.props.navigator.push({index : 2});
     // }
-
-
 }

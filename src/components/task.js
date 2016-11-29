@@ -13,16 +13,24 @@ import { Container, Header, Title,
     Button, Icon,View,Text,
     InputGroup,Input
  } from 'native-base';
+import DatePicker from 'react-native-datepicker';
 import taskStyle from '../style/taskStyle.js';
+import MyDatePicker from './MyDatePicker';
 const FA = require  ('react-native-vector-icons/FontAwesome');
+
+const today = new Date();
 export default class Task extends Component{
     constructor(props) {
         super(props);
+        // Date constructor
+
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-          dataSource: ds.cloneWithRows([
-            '1', '2','3'])
+            dataSource: ds.cloneWithRows([
+            '1', '2','3']),
+            date : ''
         };
+        console.log("o taskjs "+this.state.date);
     }
 	render(){
 		return(
@@ -49,16 +57,10 @@ export default class Task extends Component{
                                 style={{textAlignVertical: 'top'}}/>
     					</View>
     					<View name = "taskDate" style = {taskStyle.taskDate}>
-                            <TextInput placeholder = "28/11/2016"/>
+                            <MyDatePicker datevalue = {today}
+                                onChange = {(datevalue)=>this.setDate(datevalue)}
+                            />
     					</View>
-    					<View name = "iconCalendar" style = {taskStyle.iconCalendar}>
-                            <TouchableOpacity>
-                                <View>
-                                    <Image source = {require('../../images/calendar.png')}>
-                                    </Image>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
     				</View>
                     <View name = "taskAssign" style = {taskStyle.taskAssign}>
     					<TextInput placeholder = "Assign" maxWidth = {350}/>
@@ -123,4 +125,17 @@ export default class Task extends Component{
             </View>
 		);
 	}
+
+    setDate(date){
+        console.log("task Date : "+date);
+        console.log(typeof date);
+        this.setState({
+            date : date
+        });
+        console.log(this.state.date);
+    }
 }
+Task.propTypes = {
+  datevalue: React.PropTypes.object,
+  onChange : React.PropTypes.func
+};

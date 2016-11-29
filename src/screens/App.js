@@ -25,6 +25,7 @@ export default class App extends Component{
     constructor(props) {
         super(props);
         this.register = this.register.bind(this);
+        console.log("user id dang nhap la : "+this.props.user_id);
     }
 	render(){
 		return (
