@@ -3,7 +3,11 @@ import {
   AppRegistry,
   StyleSheet,
   ScrollView,
+<<<<<<< HEAD
   Navigator,ListView,ActivityIndicator
+=======
+  Navigator,ListView
+>>>>>>> develop
 } from 'react-native';
 import { Container, Header, Title,
    Content, Footer, FooterTab,
@@ -14,6 +18,7 @@ import { Container, Header, Title,
 } from 'native-base';
 import styles from '../style/styles.js';
 import Task from '../components/task.js';
+<<<<<<< HEAD
 import config from '../config.json';
 export default class Home extends Component{
     constructor(props) {
@@ -147,4 +152,57 @@ export default class Home extends Component{
       this.setState({loading: false, error: true})
     }*/
   }
+=======
+export default class Home extends Component{
+    constructor(props) {
+        super(props);
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.state = {
+            dataSource: ds.cloneWithRows([
+            '1', '2','3','5','12','11','10']),
+            tab1: true,
+            tab2: false,
+            tab3: false,
+            tab4: false,
+        };
+    }
+	render(){
+		return (
+            <Container>
+                <Content style = {{margin : 5}}>
+                    <View name = "notification" style = {styles.card}>
+                        <H3>Notification</H3>
+                    </View>
+                    <View name = "task" style = {styles.card} >
+                        <Text>Danh sách việc thường ngày</Text>
+                            <ListView
+                              dataSource={this.state.dataSource}
+                              renderRow={(rowData) => <Text>{rowData}</Text>}
+                            />
+                    </View>
+                    <View name = "task" style = {styles.card} >
+                        <Text>Danh sách việc ngoài lề</Text>
+                            <ListView
+                              dataSource={this.state.dataSource}
+                              renderRow={(rowData) => <Text>{rowData}</Text>}
+                            />
+                    </View>
+                    <View name = "task" style = {styles.card} >
+                        <Text>Danh sách việc trì hoãn</Text>
+                        <ListView
+                          dataSource={this.state.dataSource}
+                          renderRow={(rowData) =><Text>{rowData}</Text>}
+                        />
+                    </View>
+                </Content>
+            </Container>
+		);
+	}
+
+    // test(data){
+    //     console.log(data);
+    //     console.log(this.props.navigator);
+    //     this.props.navigator.push({index : 2});
+    // }
+>>>>>>> develop
 }
