@@ -14,16 +14,24 @@ export default class MyDatePicker extends Component {
       <DatePicker
         date={this.state.date}
         mode="datetime"
-        format="YYYY-MM-DD hh:mm A"
+        format="YYYY-MM-DD HH:mm:ss"
         minDate="2016-05-01"
         maxDate="2086-12-01"
         showIcon = {false}
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
-        onDateChange={(date)=>this.props.onChange(date)}
+        onDateChange={(date)=>this.onDateChange(date)}
       />
     )
   }
+  onDateChange(date){
+      this.setState({
+          date : date
+      });
+      this.props.onChange(date);
+      console.log("date da nhap la  : " + this.state.date);
+  }
+
 }
 MyDatePicker.propTypes = {
   datevalue: React.PropTypes.object,

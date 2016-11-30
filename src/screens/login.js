@@ -18,6 +18,8 @@ export default class Login extends Component{
         this.state= {
             user_name  : '',
             password : '',
+            isLogin : false,
+            checkLogin : false
         };
 	}
 	render(){
@@ -26,8 +28,7 @@ export default class Login extends Component{
 				<View style = {{flex : 1,marginTop : 20,justifyContent : 'space-between',
                     alignSelf : 'center',alignItems : 'center'}}>
                     <H2 style = {{alignSelf : 'center'}}>CREM</H2>
-                    <InputGroup iconRight success style = {{margin : 5,width : 200}}>
-                        <Icon name='ios-checkmark-circle' style={{color:'#00C497'}}/>
+                    <InputGroup style = {{margin : 5,width : 200}}>
                         <Input placeholder='User name'
                             onChangeText = {(text)=>this.setState({user_name : text})}
                             value = {this.state.user_name}/>
@@ -37,13 +38,13 @@ export default class Login extends Component{
                        <Icon name='ios-close-circle' style={{color:'red'}}/>
                        <Input placeholder='Textbox with Error Input'/>
                    </InputGroup> */}
-                   <InputGroup iconRight success style = {{margin : 5,width : 200}}>
-                       <Icon name='ios-checkmark-circle' style={{color:'#00C497'}}/>
+                   <InputGroup style = {{margin : 5,width : 200}}>
                        <Input placeholder='Password' secureTextEntry
                            onChangeText = {(text)=>this.setState({password : text})}
                            value = {this.state.password}/>
                    </InputGroup>
     				<Button
+                        style = {{alignSelf  : 'center'}}
     					onPress={() => this.login()}>
                         LOGIN
                     </Button>
@@ -55,9 +56,13 @@ export default class Login extends Component{
 			</Content>
 		);
 	}
-	login(username){
+	login(){
         //id : 1 -BOD | 5-Employee |6-Manager
         //xu ly dang nhap 2 laoi user la employee va manager nhay toi 2 route khac nhau
+        username = this.state.user_name;
+        password = this.state.password;
+        //Viết hàm kiểm tra đăng nhập trên server
+        //set state checkLogin cho nó
         var user_id = 0;
         switch (username) {
             case "BOD":{
@@ -70,6 +75,9 @@ export default class Login extends Component{
             }
             default:{
                 user_id = 5;
+                this.setState({
+                    checkLogin : false
+                });
                 break;
             }
 
@@ -82,8 +90,8 @@ export default class Login extends Component{
             passProps:{user_id : user_id}
         });
 	}
-    register(){
-		console.log("REGISTER!!");
-		this.props.navigator.push({index : 2});
-	}
+    // register(){
+	// 	console.log("REGISTER!!");
+	// 	this.props.navigator.push({index : 2});
+	// }
 }

@@ -43,7 +43,7 @@ export default class Register extends Component {
                     </Header>
 
                     <Content>
-                        <Task />
+                        <Task navigator = {this.props.navigator} user_id = {this.props.user_id}/>
                     </Content>
 
 
