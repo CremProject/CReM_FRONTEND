@@ -73,6 +73,6 @@ export default class App extends Component{
 	}
     register(){
         console.log("register");
-        this.props.navigator.push({index : 2});
+        this.props.navigator.push({index : 2,passProps : {user_id : this.props.user_id}});
     }
 }

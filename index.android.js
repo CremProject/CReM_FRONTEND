@@ -40,7 +40,7 @@ export default class CReM_FRONTEND extends Component {
                 break;
             }
             case 2:{
-                return (<Register navigator = {navigator}/>);
+                return (<Register navigator = {navigator} user_id = {route.passProps.user_id}/>);
                 break;
             }
             default:{
