@@ -33,11 +33,6 @@ export default class Login extends Component{
                             onChangeText = {(text)=>this.setState({user_name : text})}
                             value = {this.state.user_name}/>
                     </InputGroup>
-                    {/* hoặc */}
-                    {/* <InputGroup iconRight error>
-                       <Icon name='ios-close-circle' style={{color:'red'}}/>
-                       <Input placeholder='Textbox with Error Input'/>
-                   </InputGroup> */}
                    <InputGroup style = {{margin : 5,width : 200}}>
                        <Input placeholder='Password' secureTextEntry
                            onChangeText = {(text)=>this.setState({password : text})}
@@ -48,15 +43,19 @@ export default class Login extends Component{
     					onPress={() => this.login()}>
                         LOGIN
                     </Button>
-                    {/* <Button
-    					onPress={() => this.register()}
-    					>REGISTER
-                    </Button> */}
                 </View>
 			</Content>
 		);
 	}
 	login(){
+		console.log("LOGIN!!");
+        //xu ly dang nhap 2 laoi user la employee va manager nhay toi 2 route khac nhau
+		this.props.navigator.push({index : 1});
+	}
+    register(){
+		console.log("REGISTER!!");
+		this.props.navigator.push({index : 2});
+	}
         //id : 1 -BOD | 5-Employee |6-Manager
         //xu ly dang nhap 2 laoi user la employee va manager nhay toi 2 route khac nhau
         username = this.state.user_name;
@@ -90,8 +89,4 @@ export default class Login extends Component{
             passProps:{user_id : user_id}
         });
 	}
-    // register(){
-	// 	console.log("REGISTER!!");
-	// 	this.props.navigator.push({index : 2});
-	// }
 }

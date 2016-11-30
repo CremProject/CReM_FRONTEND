@@ -13,6 +13,7 @@ import { Container, Header, Title,
     Button, Icon,View,Text,
     InputGroup,Input
  } from 'native-base';
+
 import DatePicker from 'react-native-datepicker';
 import taskStyle from '../style/taskStyle.js';
 import MyDatePicker from './MyDatePicker';
@@ -44,7 +45,6 @@ export default class Task extends Component{
 		return(
             <View name = "taskContainer" style = {taskStyle.taskContainer}>
                 <View name = "taskHeader" style = {taskStyle.taskHeader}>
-                    {/* Task Header */}
                     <View name = "taskPriory" style = {taskStyle.taskPriory}>
                         <Button transparent>
                             <Icon name = 'ios-star'/>
@@ -62,6 +62,22 @@ export default class Task extends Component{
     				<View name = "rowtaskTitle" style = {taskStyle.rowtaskTitle}>
     					<View name = "taskTitle" style = {taskStyle.taskTitle}>
     						<TextInput placeholder = "Tiêu đề"
+                                style={{textAlignVertical: 'top'}}/>
+    					</View>
+    					<View name = "taskDate" style = {taskStyle.taskDate}>
+                            <TextInput placeholder = "28/11/2016"/>
+    					</View>
+    					<View name = "iconCalendar" style = {taskStyle.iconCalendar}>
+                            <TouchableOpacity>
+                                <View>
+                                    <Image source = {require('../../images/calendar.png')}>
+                                    </Image>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+    				</View>
+                    <View name = "taskAssign" style = {taskStyle.taskAssign}>
+    					<TextInput placeholder = "Assign" maxWidth = {350}/>
                                 value = {this.state.title}
                                 onChangeText = {(text)=>this.setState({title : text})}
                                 style={{textAlignVertical: 'center'}}/>
@@ -82,6 +98,9 @@ export default class Task extends Component{
 
                 <View name = "taskContent" style = {taskStyle.taskContent}>
                     <View name = "taskDescription" style = {taskStyle.taskDescription}>
+                        <TextInput placeholder = "Mô tả" multiline = {true}
+                            numberOfLines = {6}
+                            style={{textAlignVertical: 'top'}}
                         <TextInput placeholder = "Description" multiline = {true}
                             numberOfLines = {6}
                             style={{textAlignVertical: 'top'}}
@@ -91,6 +110,14 @@ export default class Task extends Component{
                     </View>
     				<View name = "taskOptional" style = {taskStyle.taskOptional}>
     					<View name = "taskChecklist" style = {taskStyle.taskChecklist}>
+                            <Text>Checklist</Text>
+                            <ListView
+                              dataSource={this.state.dataSource}
+                              renderRow={(rowData) => <Text>{rowData}</Text>}
+                            />
+    					</View>
+    					<View name = "taskAttachments" style = {taskStyle.taskAttachments}>
+                            <Text>Attachments</Text>
                             <Text>Checklist (Optional)</Text>
                             {/* <ListView
                               dataSource={this.state.dataSource}
@@ -141,7 +168,6 @@ export default class Task extends Component{
             </View>
 		);
 	}
-
     setDate(date){
         console.log("task Date : "+date);
         console.log(typeof date);
@@ -222,7 +248,6 @@ export default class Task extends Component{
             console.log(err.toString());
         }
     }
-
 }
 Task.propTypes = {
     //dinh nghi kieu du lieu truyen vao cua Task
