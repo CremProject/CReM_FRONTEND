@@ -13,6 +13,18 @@ import { Container, Header, Title,
     Button, Icon,View,Text,
     InputGroup,Input
  } from 'native-base';
+<<<<<<< HEAD
+import taskStyle from '../style/taskStyle.js';
+const FA = require  ('react-native-vector-icons/FontAwesome');
+export default class Task extends Component{
+    constructor(props) {
+        super(props);
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.state = {
+          dataSource: ds.cloneWithRows([
+            '1', '2','3'])
+        };
+=======
 import DatePicker from 'react-native-datepicker';
 import taskStyle from '../style/taskStyle.js';
 import MyDatePicker from './MyDatePicker';
@@ -39,6 +51,7 @@ export default class Task extends Component{
         this.insertNewTask = this.insertNewTask.bind(this);
         console.log("o taskjs "+this.state.date);
         console.log("user_id",this.props.user_id);
+>>>>>>> develop
     }
 	render(){
 		return(
@@ -62,6 +75,24 @@ export default class Task extends Component{
     				<View name = "rowtaskTitle" style = {taskStyle.rowtaskTitle}>
     					<View name = "taskTitle" style = {taskStyle.taskTitle}>
     						<TextInput placeholder = "Tiêu đề"
+<<<<<<< HEAD
+                                style={{textAlignVertical: 'top'}}/>
+    					</View>
+    					<View name = "taskDate" style = {taskStyle.taskDate}>
+                            <TextInput placeholder = "28/11/2016"/>
+    					</View>
+    					<View name = "iconCalendar" style = {taskStyle.iconCalendar}>
+                            <TouchableOpacity>
+                                <View>
+                                    <Image source = {require('../../images/calendar.png')}>
+                                    </Image>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+    				</View>
+                    <View name = "taskAssign" style = {taskStyle.taskAssign}>
+    					<TextInput placeholder = "Assign" maxWidth = {350}/>
+=======
                                 value = {this.state.title}
                                 onChangeText = {(text)=>this.setState({title : text})}
                                 style={{textAlignVertical: 'center'}}/>
@@ -77,20 +108,37 @@ export default class Task extends Component{
                             value = {this.state.assign}
                             onChangeText = {(text)=>this.setState({assign : text})}
                         />
+>>>>>>> develop
     				</View>
                 </View>
 
                 <View name = "taskContent" style = {taskStyle.taskContent}>
                     <View name = "taskDescription" style = {taskStyle.taskDescription}>
+<<<<<<< HEAD
+                        <TextInput placeholder = "Mô tả" multiline = {true}
+                            numberOfLines = {6}
+                            style={{textAlignVertical: 'top'}}
+=======
                         <TextInput placeholder = "Description" multiline = {true}
                             numberOfLines = {6}
                             style={{textAlignVertical: 'top'}}
                             value = {this.state.description}
                             onChangeText = {(text)=>this.setState({description : text})}
+>>>>>>> develop
                         />
                     </View>
     				<View name = "taskOptional" style = {taskStyle.taskOptional}>
     					<View name = "taskChecklist" style = {taskStyle.taskChecklist}>
+<<<<<<< HEAD
+                            <Text>Checklist</Text>
+                            <ListView
+                              dataSource={this.state.dataSource}
+                              renderRow={(rowData) => <Text>{rowData}</Text>}
+                            />
+    					</View>
+    					<View name = "taskAttachments" style = {taskStyle.taskAttachments}>
+                            <Text>Attachments</Text>
+=======
                             <Text>Checklist (Optional)</Text>
                             {/* <ListView
                               dataSource={this.state.dataSource}
@@ -99,6 +147,7 @@ export default class Task extends Component{
     					</View>
     					<View name = "taskAttachments" style = {taskStyle.taskAttachments}>
                             <Text>Attachments(Optional)</Text>
+>>>>>>> develop
                             <View>
                                 <Image source = {require('../../images/attachment.png')}>
                                 </Image>
@@ -107,8 +156,12 @@ export default class Task extends Component{
     				</View>
     				<View name = "taskAction" style = {taskStyle.taskAction}>
                         <View name = "actionSave" style = {taskStyle.actionSave}>
+<<<<<<< HEAD
+                            <Button block success style = {{margin : 2}}>
+=======
                             <Button block success style = {{margin : 2}}
                                 onPress = {()=>this.saveTask()}>
+>>>>>>> develop
                                 SAVE
                             </Button>
     					</View>
@@ -141,6 +194,9 @@ export default class Task extends Component{
             </View>
 		);
 	}
+<<<<<<< HEAD
+}
+=======
 
     setDate(date){
         console.log("task Date : "+date);
@@ -229,3 +285,4 @@ Task.propTypes = {
   // datevalue: React.PropTypes.object,
   // onChange : React.PropTypes.func
 };
+>>>>>>> develop

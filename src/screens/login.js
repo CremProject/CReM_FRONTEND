@@ -15,12 +15,15 @@ import { Container, Header, Title,
 export default class Login extends Component{
 	constructor(props){
 		super(props);
+<<<<<<< HEAD
+=======
         this.state= {
             user_name  : '',
             password : '',
             isLogin : false,
             checkLogin : false
         };
+>>>>>>> develop
 	}
 	render(){
 		return (
@@ -28,16 +31,29 @@ export default class Login extends Component{
 				<View style = {{flex : 1,marginTop : 20,justifyContent : 'space-between',
                     alignSelf : 'center',alignItems : 'center'}}>
                     <H2 style = {{alignSelf : 'center'}}>CREM</H2>
+<<<<<<< HEAD
+                    <InputGroup iconRight success style = {{margin : 5,width : 200}}>
+                        <Icon name='ios-checkmark-circle' style={{color:'#00C497'}}/>
+                        <Input placeholder='User name'/>
+=======
                     <InputGroup style = {{margin : 5,width : 200}}>
                         <Input placeholder='User name'
                             onChangeText = {(text)=>this.setState({user_name : text})}
                             value = {this.state.user_name}/>
+>>>>>>> develop
                     </InputGroup>
                     {/* hoặc */}
                     {/* <InputGroup iconRight error>
                        <Icon name='ios-close-circle' style={{color:'red'}}/>
                        <Input placeholder='Textbox with Error Input'/>
                    </InputGroup> */}
+<<<<<<< HEAD
+                   <InputGroup iconRight success style = {{margin : 5,width : 200}}>
+                       <Icon name='ios-checkmark-circle' style={{color:'#00C497'}}/>
+                       <Input placeholder='Password'/>
+                   </InputGroup>
+    				<Button
+=======
                    <InputGroup style = {{margin : 5,width : 200}}>
                        <Input placeholder='Password' secureTextEntry
                            onChangeText = {(text)=>this.setState({password : text})}
@@ -45,6 +61,7 @@ export default class Login extends Component{
                    </InputGroup>
     				<Button
                         style = {{alignSelf  : 'center'}}
+>>>>>>> develop
     					onPress={() => this.login()}>
                         LOGIN
                     </Button>
@@ -57,6 +74,16 @@ export default class Login extends Component{
 		);
 	}
 	login(){
+<<<<<<< HEAD
+		console.log("LOGIN!!");
+        //xu ly dang nhap 2 laoi user la employee va manager nhay toi 2 route khac nhau
+		this.props.navigator.push({index : 1});
+	}
+    register(){
+		console.log("REGISTER!!");
+		this.props.navigator.push({index : 2});
+	}
+=======
         //id : 1 -BOD | 5-Employee |6-Manager
         //xu ly dang nhap 2 laoi user la employee va manager nhay toi 2 route khac nhau
         username = this.state.user_name;
@@ -94,4 +121,5 @@ export default class Login extends Component{
 	// 	console.log("REGISTER!!");
 	// 	this.props.navigator.push({index : 2});
 	// }
+>>>>>>> develop
 }

@@ -36,11 +36,19 @@ export default class CReM_FRONTEND extends Component {
     renderScene(route,navigator){
         switch (route.index) {
             case 1:{
+<<<<<<< HEAD
+                return (<App navigator = {navigator}/>);
+                break;
+            }
+            case 2:{
+                return (<Register navigator = {navigator}/>);
+=======
                 return (<App navigator = {navigator} user_id = {route.passProps.user_id}/>);
                 break;
             }
             case 2:{
                 return (<Register navigator = {navigator} user_id = {route.passProps.user_id}/>);
+>>>>>>> develop
                 break;
             }
             default:{

@@ -13,10 +13,17 @@ import { Container, Header, Title, Content, Footer, FooterTab, Button, Icon,Inpu
   Input} from 'native-base';
 import * as Progress from 'react-native-progress';
 var data = [
+<<<<<<< HEAD
+  {id:'1',employee_Name:'Dang Thi Hue',parts_Name:'Thu ngan',progress:0.8},
+  {id:'2',employee_Name:'Phan Cong Hau',parts_Name:'Bep',progress:0.4},
+  {id:'3',employee_Name:'Trinh Thanh Tai',parts_Name:'Bep',progress:0.8},
+  {id:'4',employee_Name:'Phan Tuan',parts_Name:'Bep',progress:0.6},
+=======
   {id:'1',nhanvien:'Dang Thi Hue',bophan:'Thu ngan',tiendo:0.8},
   {id:'2',nhanvien:'Phan Cong Hau',bophan:'Bep',tiendo:0.4},
   {id:'3',nhanvien:'Trinh Thanh Tai',bophan:'Bep',tiendo:0.8},
   {id:'4',nhanvien:'Phan Tuan',bophan:'Bep',tiendo:0.6},
+>>>>>>> develop
 ];
 export default class ManagerHomeListView extends Component{
   constructor(props){
@@ -55,10 +62,17 @@ export default class ManagerHomeListView extends Component{
   renderRow(Item){
     return(
       <View style={styles.bodyDetail}>
+<<<<<<< HEAD
+        <Text style={{flex:4/10,textAlign:'center'}}>{Item.employee_Name}</Text>
+        <Text style={{flex:2/10,textAlign:'center'}}>{Item.parts_Name}</Text>
+        <View style={{flex:3/10,alignItems: 'center'}}>
+          <Progress.Bar progress = {Item.progress} width={100} />
+=======
         <Text style={{flex:4/10,textAlign:'center'}}>{Item.nhanvien}</Text>
         <Text style={{flex:2/10,textAlign:'center'}}>{Item.bophan}</Text>
         <View style={{flex:3/10,alignItems: 'center'}}>
           <Progress.Bar progress = {Item.tiendo} width={100} />
+>>>>>>> develop
         </View>
         <View style={{flex:1/10}}>
           <Button onPress = {()=>this.showDetail(Item.id)}>
