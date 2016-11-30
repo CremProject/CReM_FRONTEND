@@ -49,11 +49,7 @@ export default StyleSheet.create({
         marginRight : 2
 	},
 	taskDate:{
-<<<<<<< HEAD
-		flex :30/100,
-=======
 		flex :45/100,
->>>>>>> develop
         borderWidth : 0.5,
         borderRadius : 5,
         marginRight : 2

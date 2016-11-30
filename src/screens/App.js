@@ -25,10 +25,7 @@ export default class App extends Component{
     constructor(props) {
         super(props);
         this.register = this.register.bind(this);
-<<<<<<< HEAD
-=======
         console.log("user id dang nhap la : "+this.props.user_id);
->>>>>>> develop
     }
 	render(){
 		return (
@@ -76,10 +73,6 @@ export default class App extends Component{
 	}
     register(){
         console.log("register");
-<<<<<<< HEAD
-        this.props.navigator.push({index : 2});
-=======
         this.props.navigator.push({index : 2,passProps : {user_id : this.props.user_id}});
->>>>>>> develop
     }
 }
