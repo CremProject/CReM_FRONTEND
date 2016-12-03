@@ -16,7 +16,8 @@ export default StyleSheet.create({
         flex: 1,
         flexDirection : 'column',
         margin :5,
-        justifyContent : 'space-between'
+        justifyContent : 'space-between',
+        fontFamily : 'VNFComicSans',
     },
     header:{
         flex : 10/100,
