@@ -43,6 +43,11 @@ export default class Login extends Component{
     					onPress={() => this.login()}>
                         LOGIN
                     </Button>
+                    {/* <Button
+                        style = {{alignSelf  : 'center'}}
+    					onPress={() => this.BODHome()}>
+                        Manager
+                    </Button> */}
                 </View>
 			</Content>
 		);
@@ -50,30 +55,28 @@ export default class Login extends Component{
 	login(){
 		console.log("LOGIN!!");
         //xu ly dang nhap 2 laoi user la employee va manager nhay toi 2 route khac nhau
-		this.props.navigator.push({index : 1});
-	}
-    register(){
-		console.log("REGISTER!!");
-		this.props.navigator.push({index : 2});
-	}
         //id : 1 -BOD | 5-Employee |6-Manager
         //xu ly dang nhap 2 laoi user la employee va manager nhay toi 2 route khac nhau
-        username = this.state.user_name;
-        password = this.state.password;
+        var username = this.state.user_name;
+        var password = this.state.password;
         //Viết hàm kiểm tra đăng nhập trên server
         //set state checkLogin cho nó
         var user_id = 0;
+        var index = 0;
         switch (username) {
             case "BOD":{
                 user_id = 1;
+                index = 3;
                 break;
             }
             case "Manager":{
                 user_id = 6;
+                index = 2;
                 break;
             }
             default:{
                 user_id = 5;
+                index = 1;
                 this.setState({
                     checkLogin : false
                 });
@@ -85,8 +88,16 @@ export default class Login extends Component{
         //id : 1 -BOD | 5-Employee |6-Manager
         //xu ly dang nhap 2 laoi user la employee va manager nhay toi 2 route khac nhau
 		this.props.navigator.push({
-            index : 1,
+            index : index,
             passProps:{user_id : user_id}
         });
 	}
+    // BODHome(){
+    //     var user_id = 5;
+	// 	console.log("REGISTER!!");
+    //     this.props.navigator.push({
+    //         index : 3,
+    //         passProps:{user_id : user_id}
+    //     });
+	// }
 }

@@ -18,16 +18,14 @@ import { Container, Header, Title,
     ListItem,Picker,Item,H3
  } from 'native-base';
 
- import Task from '../components/task.js';
- import Warning from '../components/warning.js';
+ import Notification from '../../../components/Notification.js';
 //icon from react-native-vector-icons
 const FA = require ('react-native-vector-icons/FontAwesome');
-const styless = require('../style/styles');
 const Iconicons = require ('react-native-vector-icons/Ionicons');
 const EvilIcon = require ('react-native-vector-icons/EvilIcons');
 
 
-export default class WarningHome extends Component {
+export default class NewNotification extends Component {
     constructor(props) {
         super(props);
     }
@@ -35,7 +33,7 @@ export default class WarningHome extends Component {
         return (
             <Container>
                 <Content>
-                    <Warning />
+                    <Notification navigator = {this.props.navigator} user_id = {this.props.user_id}/>
                 </Content>
             </Container>
         );

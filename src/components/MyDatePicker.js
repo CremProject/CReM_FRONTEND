@@ -17,7 +17,7 @@ export default class MyDatePicker extends Component {
         format="YYYY-MM-DD HH:mm:ss"
         minDate="2016-05-01"
         maxDate="2086-12-01"
-        showIcon = {false}
+        showIcon = {true}
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
         onDateChange={(date)=>this.onDateChange(date)}
