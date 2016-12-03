@@ -21,7 +21,7 @@ import Home from './home.js';
 import Register from './register.js';
 import Warning from './warning.js';
 
-export default class App extends Component{
+export default class EmployeeApp extends Component{
     constructor(props) {
         super(props);
         this.register = this.register.bind(this);
@@ -49,12 +49,12 @@ export default class App extends Component{
                   renderTabBar={() => <IconBar />}>
                     <ScrollView tabLabel="ios-home" style={styles.tabView}>
                         <View>
-                            <Home navigator = {this.props.navigator}/>
+                            <Home navigator = {this.props.navigator} user_id = {this.props.user_id}/>
                         </View>
                     </ScrollView>
                     <ScrollView tabLabel="ios-megaphone" style={styles.tabView}>
                       <View>
-                        <Warning />
+                        <Warning navigator = {this.props.navigator} user_id = {this.props.user_id}/>
                       </View>
                     </ScrollView>
                     <ScrollView tabLabel="ios-calendar" style={styles.tabView}>

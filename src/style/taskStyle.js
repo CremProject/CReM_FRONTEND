@@ -43,22 +43,16 @@ export default StyleSheet.create({
         //borderWidth : 1
 	},
 	taskTitle:{
-		flex :55/100,
+		flex :60/100,
         borderWidth : 0.5,
         borderRadius : 5,
         marginRight : 2
 	},
 	taskDate:{
-		flex :45/100,
+		flex :40/100,
         borderWidth : 0.5,
         borderRadius : 5,
         marginRight : 2
-	},
-	iconCalendar:{
-		flex :15/100,
-        //borderWidth : 0.5,
-        //borderRadius : 5
-
 	},
 	taskAssign:{
         flex : 40/100,

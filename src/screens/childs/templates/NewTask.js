@@ -17,16 +17,15 @@ import { Container, Header, Title,
     InputGroup,Input,List,
     ListItem,Picker,Item,H3
  } from 'native-base';
-
- import Task from '../components/task.js';
+ 
+import Task from '../../../components/Task.js';
 //icon from react-native-vector-icons
 const FA = require ('react-native-vector-icons/FontAwesome');
-const styless = require('../style/styles');
 const Iconicons = require ('react-native-vector-icons/Ionicons');
 const EvilIcon = require ('react-native-vector-icons/EvilIcons');
 
 
-export default class Register extends Component {
+export default class NewTask extends Component {
     constructor(props) {
         super(props);
         this.goHome = this.goHome.bind(this);
@@ -38,15 +37,11 @@ export default class Register extends Component {
                         <Button transparent onPress = {this.goHome}>
                             <Icon name='ios-arrow-back' />
                         </Button>
-
                         <Title>New Task</Title>
                     </Header>
-
                     <Content>
                         <Task navigator = {this.props.navigator} user_id = {this.props.user_id}/>
                     </Content>
-
-
                 </Container>
         );
     }

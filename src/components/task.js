@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  taskStyleheet,
+  StyleSheet,
   Image,
   TextInput,
   ScrollView,
@@ -15,6 +15,7 @@ import { Container, Header, Title,
  } from 'native-base';
 
 import DatePicker from 'react-native-datepicker';
+import StarRating from './StarRating.js';
 import taskStyle from '../style/taskStyle.js';
 import MyDatePicker from './MyDatePicker';
 const FA = require  ('react-native-vector-icons/FontAwesome');
@@ -28,145 +29,215 @@ export default class Task extends Component{
         //get config url
         this.HOST = config.HOST;
         this.PORT = config.PORT;
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows([
-            '1', '2','3']),
+            starSelected : 0,
             title : '',
             date : '',
             assign : '',
-            description : ''
+            description : '',
         };
         this.insertNewTask = this.insertNewTask.bind(this);
         console.log("o taskjs "+this.state.date);
         console.log("user_id",this.props.user_id);
     }
+    static propTypes = {
+        data: React.PropTypes.object,
+        navigator : React.PropTypes.object,
+		user_id : React.PropTypes.number,
+    };
 	render(){
-		return(
-            <View name = "taskContainer" style = {taskStyle.taskContainer}>
-                <View name = "taskHeader" style = {taskStyle.taskHeader}>
-                    <View name = "taskPriory" style = {taskStyle.taskPriory}>
-                        <Button transparent>
-                            <Icon name = 'ios-star'/>
-                        </Button>
-                        <Button transparent>
-                            <Icon name = 'ios-star'/>
-                        </Button>
-                        <Button transparent>
-                            <Icon name = 'ios-star'/>
-                        </Button>
-                        <Button transparent>
-                            <Icon name = 'ios-star'/>
-                        </Button>
-    				</View>
-    				<View name = "rowtaskTitle" style = {taskStyle.rowtaskTitle}>
-    					<View name = "taskTitle" style = {taskStyle.taskTitle}>
-    						<TextInput placeholder = "Tiêu đề"
-                                style={{textAlignVertical: 'top'}}/>
-    					</View>
-    					<View name = "taskDate" style = {taskStyle.taskDate}>
-                            <TextInput placeholder = "28/11/2016"/>
-    					</View>
-    					<View name = "iconCalendar" style = {taskStyle.iconCalendar}>
-                            <TouchableOpacity>
-                                <View>
-                                    <Image source = {require('../../images/calendar.png')}>
-                                    </Image>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-    				</View>
-                    <View name = "taskAssign" style = {taskStyle.taskAssign}>
-    					<TextInput placeholder = "Assign" maxWidth = {350}/>
-                                value = {this.state.title}
-                                onChangeText = {(text)=>this.setState({title : text})}
-                                style={{textAlignVertical: 'center'}}/>
-    					</View>
-    					<View name = "taskDate" style = {taskStyle.taskDate}>
-                            <MyDatePicker datevalue = {this.today}
-                                onChange = {(datevalue)=>this.setDate(datevalue)}
+		if(this.props.data == null){
+            return(
+                <View name = "taskContainer" style = {taskStyle.taskContainer}>
+                    <View name = "taskHeader" style = {taskStyle.taskHeader}>
+                        <View name = "taskPriory" style = {taskStyle.taskPriory}>
+                            <StarRating
+                                numOfStar = {4}
+                                onClick = {(selected)=>this.getSelected(selected)}
                             />
-    					</View>
-    				</View>
-                    <View name = "taskAssign" style = {taskStyle.taskAssign}>
-    					<TextInput placeholder = "Assign" maxWidth = {350}
-                            value = {this.state.assign}
-                            onChangeText = {(text)=>this.setState({assign : text})}
-                        />
-    				</View>
-                </View>
-
-                <View name = "taskContent" style = {taskStyle.taskContent}>
-                    <View name = "taskDescription" style = {taskStyle.taskDescription}>
-                        <TextInput placeholder = "Mô tả" multiline = {true}
-                            numberOfLines = {6}
-                            style={{textAlignVertical: 'top'}}
-                        <TextInput placeholder = "Description" multiline = {true}
-                            numberOfLines = {6}
-                            style={{textAlignVertical: 'top'}}
-                            value = {this.state.description}
-                            onChangeText = {(text)=>this.setState({description : text})}
-                        />
-                    </View>
-    				<View name = "taskOptional" style = {taskStyle.taskOptional}>
-    					<View name = "taskChecklist" style = {taskStyle.taskChecklist}>
-                            <Text>Checklist</Text>
-                            <ListView
-                              dataSource={this.state.dataSource}
-                              renderRow={(rowData) => <Text>{rowData}</Text>}
-                            />
-    					</View>
-    					<View name = "taskAttachments" style = {taskStyle.taskAttachments}>
-                            <Text>Attachments</Text>
-                            <Text>Checklist (Optional)</Text>
-                            {/* <ListView
-                              dataSource={this.state.dataSource}
-                              renderRow={(rowData) => <Text>{rowData}</Text>}
-                            /> */}
-    					</View>
-    					<View name = "taskAttachments" style = {taskStyle.taskAttachments}>
-                            <Text>Attachments(Optional)</Text>
-                            <View>
-                                <Image source = {require('../../images/attachment.png')}>
-                                </Image>
-                            </View>
-    					</View>
-    				</View>
-    				<View name = "taskAction" style = {taskStyle.taskAction}>
-                        <View name = "actionSave" style = {taskStyle.actionSave}>
-                            <Button block success style = {{margin : 2}}
-                                onPress = {()=>this.saveTask()}>
-                                SAVE
-                            </Button>
-    					</View>
-    					<View name = "actionCancel" style = {taskStyle.actionCancel}>
-    						<Button block danger  style = {{margin : 2}}>
-                                {/* <Icon name = 'ios-megaphone'/> */}
-                                CANCEL
-                            </Button>
-    					</View>
-    				</View>
-                </View>
-                <View name = "taskFooter" style = {taskStyle.taskFooter}>
-                    <View name = "commentArea" style = {taskStyle.commentArea}>
-                        <Text>Add a comment</Text>
-                        <View name = "commentContentArea" style = {taskStyle.commentContentArea}>
-                            <View name = "commentContent" style = {taskStyle.commentContent}>
-                                <TextInput placeholder = "Add your comment" multiline = {true}
-                                    numberOfLines = {6}
-                                    style={{textAlignVertical: 'top'}}
+        				</View>
+        				<View name = "rowtaskTitle" style = {taskStyle.rowtaskTitle}>
+        					<View name = "taskTitle" style = {taskStyle.taskTitle}>
+                                <Input placeholder = "Title"
+                                        value = {this.state.title}
+                                        onChangeText = {(text)=>this.setState({title : text})}
                                 />
-                            </View>
-                            <View name = "iconAddon" style = {taskStyle.iconAddon}>
-                                <Image source =  {require('../../images/attachment.png')} />
-                                <Image source =  {require('../../images/at.png')} />
-                                <Image source =  {require('../../images/smile.png')} />
+        					</View>
+                            <View name = "taskDate" style = {taskStyle.taskDate}>
+                                <MyDatePicker datevalue = {this.today}
+                                    onChange = {(datevalue)=>this.setDate(datevalue)}
+                                />
+        					</View>
+        				</View>
+                        <View name = "taskAssign" style = {taskStyle.taskAssign}>
+        					<Input placeholder = "Assign"
+                                value = {this.state.assign}
+                                onChangeText = {(text)=>this.setState({assign : text})}
+                            />
+        				</View>
+                    </View>
+                    <View name = "taskContent" style = {taskStyle.taskContent}>
+                        <View name = "taskDescription" style = {taskStyle.taskDescription}>
+                            <TextInput placeholder = "Description"
+                                multiline = {true}
+                                numberOfLines = {4}
+                                style={{textAlignVertical: 'top'}}
+                                value = {this.state.description}
+                                onChangeText = {(text)=>this.setState({description : text})}
+                            />
+                        </View>
+        				<View name = "taskOptional" style = {taskStyle.taskOptional}>
+        					<View name = "taskChecklist" style = {taskStyle.taskChecklist}>
+                                <Text>Checklist (Optional)</Text>
+        					</View>
+        					<View name = "taskAttachments" style = {taskStyle.taskAttachments}>
+                                <Text>Attachments(Optional)</Text>
+                                <View>
+                                    {/* <Image source = {require('../../images/attachment.png')}
+                                        style={{marginRight : 5}}>
+                                    </Image> */}
+                                </View>
+        					</View>
+        				</View>
+        				<View name = "taskAction" style = {taskStyle.taskAction}>
+                            <View name = "actionSave" style = {taskStyle.actionSave}>
+                                <Button block success style = {{margin : 2}}
+                                    onPress = {()=>this.saveTask()}>
+                                    SAVE
+                                </Button>
+        					</View>
+        					<View name = "actionCancel" style = {taskStyle.actionCancel}>
+        						<Button block danger  style = {{margin : 2}}
+                                    onPress = {()=>this.props.navigator.push({
+                                        index : 1,
+                                        passProps : {
+                                            user_id : this.props.user_id
+                                        }
+                                    })}>
+                                    CANCEL
+                                </Button>
+        					</View>
+        				</View>
+                    </View>
+                    <View name = "taskFooter" style = {taskStyle.taskFooter}>
+                        <View name = "commentArea" style = {taskStyle.commentArea}>
+                            <Text>Add a comment</Text>
+                            <View name = "commentContentArea" style = {taskStyle.commentContentArea}>
+                                <View name = "commentContent" style = {taskStyle.commentContent}>
+                                    <TextInput placeholder = "Add your comment" multiline = {true}
+                                        numberOfLines = {4}
+                                        style={{textAlignVertical: 'top'}}
+                                    />
+                                </View>
+                                <View name = "iconAddon" style = {taskStyle.iconAddon}>
+                                    <Image source =  {require('../../images/attachment.png')} />
+                                    <Image source =  {require('../../images/at.png')} />
+                                    <Image source =  {require('../../images/smile.png')} />
+                                </View>
                             </View>
                         </View>
                     </View>
                 </View>
-            </View>
-		);
+    		);
+        }
+        //trường hợp update Task
+        else{
+            let time = this.props.data.start_time.substr(-8);
+            time = time.substr(0,5);
+
+            let title = this.props.data.name;
+            let description = this.props.data.description ;
+            description = typeof description === 'undefined' ? "Không có mô tả"  : description;
+            console.log("detail : "+description);
+
+            console.log("Update Task");
+            return(
+                <View name = "taskContainer" style = {taskStyle.taskContainer}>
+                    <View name = "taskHeader" style = {taskStyle.taskHeader}>
+                        <View name = "taskPriory" style = {taskStyle.taskPriory}>
+                            <StarRating
+                                numOfStar = {4}
+                                onClick = {(selected)=>this.getSelected(selected)}
+                            />
+        				</View>
+        				<View name = "rowtaskTitle" style = {taskStyle.rowtaskTitle}>
+        					<View name = "taskTitle" style = {taskStyle.taskTitle}>
+                                <Input  value = {title}
+                                        editable = {false}
+                                />
+        					</View>
+                            <View name = "taskDate" style = {taskStyle.taskDate}>
+                                <Input  value = {time}
+                                        editable = {false}
+                                />
+        					</View>
+        				</View>
+                    </View>
+                    <View name = "taskContent" style = {taskStyle.taskContent}>
+                        <View name = "taskDescription" style = {taskStyle.taskDescription}>
+                            <TextInput
+                                multiline = {true}
+                                numberOfLines = {4}
+                                style={{textAlignVertical: 'top'}}
+                                value = {description}
+                                editable={false}
+                            />
+                        </View>
+        				<View name = "taskOptional" style = {taskStyle.taskOptional}>
+        					<View name = "taskChecklist" style = {taskStyle.taskChecklist}>
+                                <Text>Checklist (Optional)</Text>
+        					</View>
+        					<View name = "taskAttachments" style = {taskStyle.taskAttachments}>
+                                <Text>Attachments(Optional)</Text>
+                                {/* Thêm nút done */}
+                                <View>
+                                    {/* <Image source = {require('../../images/attachment.png')}
+                                        style={{marginRight : 5}}>
+                                    </Image> */}
+                                </View>
+        					</View>
+        				</View>
+        				<View name = "taskAction" style = {taskStyle.taskAction}>
+                            <View name = "actionSave" style = {taskStyle.actionSave}>
+                                <Button block success style = {{margin : 2}}
+                                    onPress = {()=>this.saveTask()}>
+                                    SAVE
+                                </Button>
+        					</View>
+        					<View name = "actionCancel" style = {taskStyle.actionCancel}>
+        						<Button block danger  style = {{margin : 2}}
+                                    onPress = {()=>this.props.navigator.push({
+                                        index : 1,
+                                        passProps : {
+                                            user_id : this.props.user_id
+                                        }
+                                    })}>
+                                    CANCEL
+                                </Button>
+        					</View>
+        				</View>
+                    </View>
+                    <View name = "taskFooter" style = {taskStyle.taskFooter}>
+                        <View name = "commentArea" style = {taskStyle.commentArea}>
+                            <Text>Add a comment</Text>
+                            <View name = "commentContentArea" style = {taskStyle.commentContentArea}>
+                                <View name = "commentContent" style = {taskStyle.commentContent}>
+                                    <TextInput placeholder = "Add your comment" multiline = {true}
+                                        numberOfLines = {4}
+                                        style={{textAlignVertical: 'top'}}
+                                    />
+                                </View>
+                                <View name = "iconAddon" style = {taskStyle.iconAddon}>
+                                    <Image source =  {require('../../images/attachment.png')} />
+                                    <Image source =  {require('../../images/at.png')} />
+                                    <Image source =  {require('../../images/smile.png')} />
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+    		);
+        }
 	}
     setDate(date){
         console.log("task Date : "+date);
@@ -244,13 +315,17 @@ export default class Task extends Component{
             let responseJson = await response.json();
             var result = await responseJson.result
             console.log("ket qua truy van : "+result);
+            if(result === 'OK'){
+                ()=>this.props.navigator.pop();
+            }
         }catch(err){
             console.log(err.toString());
         }
     }
+    getSelected(selected){
+        console.log("Dang o UpdateTask.js "+ selected);
+        this.setState({
+            starSelected : selected,
+        });
+    }
 }
-Task.propTypes = {
-    //dinh nghi kieu du lieu truyen vao cua Task
-  // datevalue: React.PropTypes.object,
-  // onChange : React.PropTypes.func
-};
