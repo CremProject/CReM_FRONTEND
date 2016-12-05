@@ -21,6 +21,13 @@ import MyDatePicker from './MyDatePicker';
 const FA = require  ('react-native-vector-icons/FontAwesome');
 //default server information
 import config from '../config.json';
+
+//test autoComplete
+const data = [
+    {name : 'Phat Nguyen',id : '13520604'},
+    {name : 'Tai Nguyen',id : '13520757'}
+];
+
 export default class Task extends Component{
     constructor(props) {
         super(props);
@@ -35,10 +42,19 @@ export default class Task extends Component{
             date : '',
             assign : '',
             description : '',
+            employee_id : '',
+            //support for autoComplete
+            searched : [],
+            loadcomplete : false,
         };
         this.insertNewTask = this.insertNewTask.bind(this);
-        console.log("o taskjs "+this.state.date);
-        console.log("user_id",this.props.user_id);
+
+        //support for autoComplete
+        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.clickData = this.clickData.bind(this);
+        this.renderRowAutoComplete = this.renderRowAutoComplete.bind(this);
+        this.autoComplete = this.autoComplete.bind(this);
+        this.findData = this.findData.bind(this);
     }
     static propTypes = {
         data: React.PropTypes.object,
@@ -61,6 +77,7 @@ export default class Task extends Component{
                                 <Input placeholder = "Title"
                                         value = {this.state.title}
                                         onChangeText = {(text)=>this.setState({title : text})}
+                                        style ={{fontFamily: 'VNFComicSans'}}
                                 />
         					</View>
                             <View name = "taskDate" style = {taskStyle.taskDate}>
@@ -72,8 +89,17 @@ export default class Task extends Component{
                         <View name = "taskAssign" style = {taskStyle.taskAssign}>
         					<Input placeholder = "Assign"
                                 value = {this.state.assign}
-                                onChangeText = {(text)=>this.setState({assign : text})}
+                                onChangeText = {(text)=>this.autoComplete(text)}
+                                style ={{fontFamily: 'VNFComicSans'}}
                             />
+                            {this.state.loadcomplete &&
+                                <ListView
+                                    dataSource={this.ds.cloneWithRows(this.state.searched)}
+                                    renderRow={this.renderRowAutoComplete}
+                                    renderSeparator={this.renderSeparator}
+                                    enableEmptySections={true}
+                                />
+                            }
         				</View>
                     </View>
                     <View name = "taskContent" style = {taskStyle.taskContent}>
@@ -84,26 +110,31 @@ export default class Task extends Component{
                                 style={{textAlignVertical: 'top'}}
                                 value = {this.state.description}
                                 onChangeText = {(text)=>this.setState({description : text})}
+                                style ={{fontFamily: 'VNFComicSans',textAlignVertical : 'top'}}
                             />
                         </View>
         				<View name = "taskOptional" style = {taskStyle.taskOptional}>
         					<View name = "taskChecklist" style = {taskStyle.taskChecklist}>
-                                <Text>Checklist (Optional)</Text>
+                                <Text style ={{fontFamily: 'VNFComicSans'}}>Checklist (Optional)</Text>
         					</View>
-        					<View name = "taskAttachments" style = {taskStyle.taskAttachments}>
-                                <Text>Attachments(Optional)</Text>
-                                <View>
-                                    {/* <Image source = {require('../../images/attachment.png')}
-                                        style={{marginRight : 5}}>
-                                    </Image> */}
-                                </View>
-        					</View>
+        					<View>
+                                <View name = "taskAttachments" style = {taskStyle.taskAttachments}>
+                                    <Text style ={{fontFamily: 'VNFComicSans'}}>Attachments(Optional)</Text>
+                                    <View>
+                                        {/* <Image source = {require('../../images/attachment.png')}
+                                            style={{marginRight : 5}}>
+                                        </Image> */}
+                                    </View>
+            					</View>
+                            </View>
         				</View>
         				<View name = "taskAction" style = {taskStyle.taskAction}>
                             <View name = "actionSave" style = {taskStyle.actionSave}>
                                 <Button block success style = {{margin : 2}}
                                     onPress = {()=>this.saveTask()}>
-                                    SAVE
+                                    <Text style ={{fontFamily: 'VNFComicSans'}}>
+                                        SAVE
+                                    </Text>
                                 </Button>
         					</View>
         					<View name = "actionCancel" style = {taskStyle.actionCancel}>
@@ -114,19 +145,22 @@ export default class Task extends Component{
                                             user_id : this.props.user_id
                                         }
                                     })}>
-                                    CANCEL
+                                    <Text style ={{fontFamily: 'VNFComicSans'}}>
+                                        CANCEL
+                                    </Text>
                                 </Button>
         					</View>
         				</View>
                     </View>
                     <View name = "taskFooter" style = {taskStyle.taskFooter}>
                         <View name = "commentArea" style = {taskStyle.commentArea}>
-                            <Text>Add a comment</Text>
+                            <Text style ={{fontFamily: 'VNFComicSans'}}>Add a comment</Text>
                             <View name = "commentContentArea" style = {taskStyle.commentContentArea}>
                                 <View name = "commentContent" style = {taskStyle.commentContent}>
-                                    <TextInput placeholder = "Add your comment" multiline = {true}
+                                    <TextInput placeholder = "Add your comment"
+                                        multiline = {true}
                                         numberOfLines = {4}
-                                        style={{textAlignVertical: 'top'}}
+                                        style={{textAlignVertical: 'top',fontFamily: 'VNFComicSans'}}
                                     />
                                 </View>
                                 <View name = "iconAddon" style = {taskStyle.iconAddon}>
@@ -164,11 +198,13 @@ export default class Task extends Component{
         					<View name = "taskTitle" style = {taskStyle.taskTitle}>
                                 <Input  value = {title}
                                         editable = {false}
+                                        style ={{fontFamily: 'VNFComicSans'}}
                                 />
         					</View>
                             <View name = "taskDate" style = {taskStyle.taskDate}>
                                 <Input  value = {time}
                                         editable = {false}
+                                        style ={{fontFamily: 'VNFComicSans'}}
                                 />
         					</View>
         				</View>
@@ -178,17 +214,22 @@ export default class Task extends Component{
                             <TextInput
                                 multiline = {true}
                                 numberOfLines = {4}
-                                style={{textAlignVertical: 'top'}}
+                                style={{textAlignVertical: 'top',fontFamily: 'VNFComicSans'}}
                                 value = {description}
                                 editable={false}
+
                             />
                         </View>
         				<View name = "taskOptional" style = {taskStyle.taskOptional}>
         					<View name = "taskChecklist" style = {taskStyle.taskChecklist}>
-                                <Text>Checklist (Optional)</Text>
+                                <Text style ={{fontFamily: 'VNFComicSans'}}>
+                                    Checklist (Optional)
+                                </Text>
         					</View>
         					<View name = "taskAttachments" style = {taskStyle.taskAttachments}>
-                                <Text>Attachments(Optional)</Text>
+                                <Text style ={{fontFamily: 'VNFComicSans'}}>
+                                    Attachments(Optional)
+                                </Text>
                                 {/* Thêm nút done */}
                                 <View>
                                     {/* <Image source = {require('../../images/attachment.png')}
@@ -201,7 +242,9 @@ export default class Task extends Component{
                             <View name = "actionSave" style = {taskStyle.actionSave}>
                                 <Button block success style = {{margin : 2}}
                                     onPress = {()=>this.saveTask()}>
-                                    SAVE
+                                    <Text style ={{fontFamily: 'VNFComicSans'}}>
+                                        SAVE
+                                    </Text>
                                 </Button>
         					</View>
         					<View name = "actionCancel" style = {taskStyle.actionCancel}>
@@ -212,19 +255,22 @@ export default class Task extends Component{
                                             user_id : this.props.user_id
                                         }
                                     })}>
-                                    CANCEL
+                                    <Text style ={{fontFamily: 'VNFComicSans'}}>
+                                        CANCEL
+                                    </Text>
                                 </Button>
         					</View>
         				</View>
                     </View>
                     <View name = "taskFooter" style = {taskStyle.taskFooter}>
                         <View name = "commentArea" style = {taskStyle.commentArea}>
-                            <Text>Add a comment</Text>
+                            <Text style ={{fontFamily: 'VNFComicSans'}}>Add a comment</Text>
                             <View name = "commentContentArea" style = {taskStyle.commentContentArea}>
                                 <View name = "commentContent" style = {taskStyle.commentContent}>
-                                    <TextInput placeholder = "Add your comment" multiline = {true}
+                                    <TextInput placeholder = "Add your comment"
+                                        multiline = {true}
                                         numberOfLines = {4}
-                                        style={{textAlignVertical: 'top'}}
+                                        style={{textAlignVertical: 'top',fontFamily: 'VNFComicSans'}}
                                     />
                                 </View>
                                 <View name = "iconAddon" style = {taskStyle.iconAddon}>
@@ -328,4 +374,62 @@ export default class Task extends Component{
             starSelected : selected,
         });
     }
+
+    //support for autoComplete
+    renderRowAutoComplete(data){
+        return (
+            <View style ={{flex :1 ,flexDirection : 'row'}}>
+                <TouchableOpacity
+                    style ={{alignItems : 'flex-start'}}
+                    onPress = {()=>{this.clickData(data)}}>
+                    <View>
+                        <Text style ={{fontFamily: 'VNFComicSans'}}>{data.name}</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+    renderSeparator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
+        return (
+          <View
+            key={`${sectionID}-${rowID}`}
+            style={{
+              height: adjacentRowHighlighted ? 4 : 1,
+              backgroundColor: adjacentRowHighlighted ? '#3B5998' : '#CCCCCC',
+            }}
+          />
+        );
+    }
+    clickData(data){
+        console.log("onClick !!" + data.id);
+        this.setState({
+            assign : data.name,
+            employee_id : data.id,
+            loadcomplete : false,
+        });
+    }
+    autoComplete(text){
+        //xử lý lấy searched[]
+        search = this.findData(text);
+        console.log(search);
+        this.setState({
+            assign : text,
+            loadcomplete : true,
+            searched : search,
+        });
+    }
+    findData(query) {
+        var result = [];
+        if (query === '') {
+          result = [];
+        }
+        if(query.indexOf('@')=== 0){
+            query = query.substr(1).toLowerCase().trim();
+            result = data.filter(item => item.name.toLowerCase().indexOf(query) > -1);
+        }else{
+            result = [];
+        }
+        return result;
+    }
+    // END OF AUTO COMPLETE
 }

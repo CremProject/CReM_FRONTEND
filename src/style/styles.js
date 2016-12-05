@@ -17,7 +17,9 @@ export default StyleSheet.create({
         flexDirection : 'column',
         margin :5,
         justifyContent : 'space-between',
-        fontFamily : 'VNFComicSans',
+        // fontFamily : 'VNFComicSans',
+        fontWeight: 'bold',
+        fontSize: 48
     },
     header:{
         flex : 10/100,

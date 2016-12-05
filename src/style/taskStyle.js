@@ -10,7 +10,7 @@ export default StyleSheet.create({
         flex: 1,
         flexDirection : 'column',
         margin :5,
-        justifyContent : 'space-between'
+        justifyContent : 'space-between',
 	},
 	taskHeader:{
 		//flex: 35/100,
