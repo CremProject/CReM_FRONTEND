@@ -27,21 +27,26 @@ export default class Login extends Component{
 			<Content>
 				<View style = {{flex : 1,marginTop : 20,justifyContent : 'space-between',
                     alignSelf : 'center',alignItems : 'center'}}>
-                    <H2 style = {{alignSelf : 'center'}}>CREM</H2>
+                    <H2 style = {{alignSelf : 'center'}}>CReM</H2>
                     <InputGroup style = {{margin : 5,width : 200}}>
                         <Input placeholder='User name'
                             onChangeText = {(text)=>this.setState({user_name : text})}
+                            style ={{fontFamily: 'VNFComicSans'}}
                             value = {this.state.user_name}/>
                     </InputGroup>
                    <InputGroup style = {{margin : 5,width : 200}}>
-                       <Input placeholder='Password' secureTextEntry
+                       <Input placeholder='Password'
+                           secureTextEntry
                            onChangeText = {(text)=>this.setState({password : text})}
+                           style ={{fontFamily: 'VNFComicSans'}}
                            value = {this.state.password}/>
                    </InputGroup>
     				<Button
                         style = {{alignSelf  : 'center'}}
     					onPress={() => this.login()}>
-                        LOGIN
+                        <Text style ={{fontFamily: 'VNFComicSans'}}>
+                            LOGIN
+                        </Text>
                     </Button>
                     {/* <Button
                         style = {{alignSelf  : 'center'}}
@@ -57,7 +62,7 @@ export default class Login extends Component{
         //xu ly dang nhap 2 laoi user la employee va manager nhay toi 2 route khac nhau
         //id : 1 -BOD | 5-Employee |6-Manager
         //xu ly dang nhap 2 laoi user la employee va manager nhay toi 2 route khac nhau
-        var username = this.state.user_name;
+        var username = this.state.user_name.toUpperCase();
         var password = this.state.password;
         //Viết hàm kiểm tra đăng nhập trên server
         //set state checkLogin cho nó
@@ -69,7 +74,7 @@ export default class Login extends Component{
                 index = 3;
                 break;
             }
-            case "Manager":{
+            case "MANAGER":{
                 user_id = 6;
                 index = 2;
                 break;
