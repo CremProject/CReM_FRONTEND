@@ -12,6 +12,7 @@ import { Container, Header, Title,
    ListItem,Picker,Item,H3,H2,
    Badge
 } from 'native-base';
+const FA = require ('react-native-vector-icons/FontAwesome');
 export default class Login extends Component{
 	constructor(props){
 		super(props);
@@ -27,21 +28,27 @@ export default class Login extends Component{
 			<Content>
 				<View style = {{flex : 1,marginTop : 20,justifyContent : 'space-between',
                     alignSelf : 'center',alignItems : 'center'}}>
-                    <H2 style = {{alignSelf : 'center'}}>CREM</H2>
+                    <H2 style = {{alignSelf : 'center'}}>CReM</H2>
                     <InputGroup style = {{margin : 5,width : 200}}>
                         <Input placeholder='User name'
                             onChangeText = {(text)=>this.setState({user_name : text})}
+                            style ={{fontFamily: 'VNFComicSans'}}
                             value = {this.state.user_name}/>
                     </InputGroup>
                    <InputGroup style = {{margin : 5,width : 200}}>
-                       <Input placeholder='Password' secureTextEntry
+                       <Input placeholder='Password'
+                           secureTextEntry
                            onChangeText = {(text)=>this.setState({password : text})}
+                           style ={{fontFamily: 'VNFComicSans'}}
                            value = {this.state.password}/>
                    </InputGroup>
     				<Button
-                        style = {{alignSelf  : 'center'}}
+                        style = {{alignSelf  : 'center',backgroundColor :'gray'}}
     					onPress={() => this.login()}>
-                        LOGIN
+                        <Text style ={{fontFamily: 'VNFComicSans'}}>
+                            <FA name ="sign-in" size ={18}/>
+                            Login
+                        </Text>
                     </Button>
                     {/* <Button
                         style = {{alignSelf  : 'center'}}
@@ -57,25 +64,31 @@ export default class Login extends Component{
         //xu ly dang nhap 2 laoi user la employee va manager nhay toi 2 route khac nhau
         //id : 1 -BOD | 5-Employee |6-Manager
         //xu ly dang nhap 2 laoi user la employee va manager nhay toi 2 route khac nhau
-        var username = this.state.user_name;
+        var username = this.state.user_name.toUpperCase();
         var password = this.state.password;
         //Viết hàm kiểm tra đăng nhập trên server
         //set state checkLogin cho nó
+
+        //2016-12-05
+        //xét thêm role cho mỗi user
         var user_id = 0;
         var index = 0;
         switch (username) {
             case "BOD":{
-                user_id = 1;
+                //user_id = 1;
+                user_id = 5;
                 index = 3;
                 break;
             }
-            case "Manager":{
-                user_id = 6;
+            case "MANAGER":{
+                //user_id = 6;
+                user_id = 3;
                 index = 2;
                 break;
             }
             default:{
-                user_id = 5;
+                //user_id = 5;
+                user_id =  1;
                 index = 1;
                 this.setState({
                     checkLogin : false
