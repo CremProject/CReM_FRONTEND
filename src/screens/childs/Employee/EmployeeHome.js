@@ -98,17 +98,19 @@ export default class EmployeeHome extends Component{
 	}
     renderRow(data){
         var text = data.start_time;
+        var state = data.state;
         text = text.substr(-8);
         text = text.substr(0,5);
         return(
             <TouchableOpacity onPress = {(text)=>this.onClickItem(data)}>
                 <View style={{flex :1 ,flexDirection : 'row'}}>
-                    <View style={{flex : 1/5}}>
+                    <View style={{flex : 1/5,flexDirection:'row',marginRight : 2}}>
                     {/* xu ly checkbox khi task da hoan thanh */}
-                        <CheckBox checked={true} onPress = {()=>this.onTick(data)}/>
+                        <CheckBox checked={state === "draft" ? false : true}
+                            onPress = {()=>this.onTick(data)}/>
+                        <Text>{text}</Text>
                     </View>
-                    <Text style={{flex : 2/5}}>{text}</Text>
-                    <Text style={{flex : 2/5}}>{data.name}</Text>
+                    <Text style={{flex : 4/5}}>{data.name}</Text>
                 </View>
             </TouchableOpacity>
         );
@@ -128,7 +130,8 @@ export default class EmployeeHome extends Component{
     }
     async connectserver(){
         console.log("call connectserver");
-        var url = config.HOST+":"+config.PORT+"/api/task/getmytask?employee_id=1";
+        var url = config.HOST+":"+config.PORT+"/api/task/getmytask?employee_id=" + this.props.user_id ;
+        //var url = config.HOST2 + "/api/task/getmytask?employee_id="+this.props.user_id;
         console.log(url);
         try {
           var options = {

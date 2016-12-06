@@ -85,7 +85,7 @@ export default StyleSheet.create({
 	},
 	taskAttachments:{
         flex :1,
-        flexDirection :'row',
+        flexDirection :'column',
         ////borderWidth : 2
 	},
 

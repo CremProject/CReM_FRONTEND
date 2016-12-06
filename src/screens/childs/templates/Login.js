@@ -12,6 +12,7 @@ import { Container, Header, Title,
    ListItem,Picker,Item,H3,H2,
    Badge
 } from 'native-base';
+const FA = require ('react-native-vector-icons/FontAwesome');
 export default class Login extends Component{
 	constructor(props){
 		super(props);
@@ -42,10 +43,11 @@ export default class Login extends Component{
                            value = {this.state.password}/>
                    </InputGroup>
     				<Button
-                        style = {{alignSelf  : 'center'}}
+                        style = {{alignSelf  : 'center',backgroundColor :'gray'}}
     					onPress={() => this.login()}>
                         <Text style ={{fontFamily: 'VNFComicSans'}}>
-                            LOGIN
+                            <FA name ="sign-in" size ={18}/>
+                            Login
                         </Text>
                     </Button>
                     {/* <Button
@@ -66,21 +68,27 @@ export default class Login extends Component{
         var password = this.state.password;
         //Viết hàm kiểm tra đăng nhập trên server
         //set state checkLogin cho nó
+
+        //2016-12-05
+        //xét thêm role cho mỗi user
         var user_id = 0;
         var index = 0;
         switch (username) {
             case "BOD":{
-                user_id = 1;
+                //user_id = 1;
+                user_id = 5;
                 index = 3;
                 break;
             }
             case "MANAGER":{
-                user_id = 6;
+                //user_id = 6;
+                user_id = 3;
                 index = 2;
                 break;
             }
             default:{
-                user_id = 5;
+                //user_id = 5;
+                user_id =  1;
                 index = 1;
                 this.setState({
                     checkLogin : false
