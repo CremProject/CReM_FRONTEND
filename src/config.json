@@ -1,4 +1,6 @@
 {
   HOST: "http://139.59.235.108",
-  PORT: "8069"
+  PORT: "8069",
+  HOST2: "http://10.0.6.43:8080/HelloSpring",
+  PORT2: "8080",
 }

@@ -16,7 +16,7 @@ export default class StarRating extends Component{
 		for(let i = 1 ; i <= this.props.numOfStar ; i++){
 			status['star'+i] = (i <= selected) ? true : false;
 		}
-		console.log("mang status la"+status);
+		//console.log("mang status la"+status);
 		this.state= {
 			status : status,
 			selected : this.props.selected,
@@ -26,16 +26,20 @@ export default class StarRating extends Component{
         numOfStar: React.PropTypes.number,
         selected : React.PropTypes.number,
 		onClick : React.PropTypes.func,
+		disable :  React.PropTypes.bool,
     };
 	render(){
 		let numOfStar = this.props.numOfStar;
 		let star = [];
+		let disabled = this.props.disable;
 		for(let i = 1 ; i <= numOfStar ; i++){
 			let status = this.state.status['star'+i];
-			console.log("status o dong "+ i +" la : " + status);
+			//console.log("status o dong "+ i +" la : " + status);
 			star.push(
 				<View key = {i}>
-					<Button transparent onPress = {()=>this._handleClick(i)}>
+					<Button transparent
+						onPress = {()=>this._handleClick(i)}
+						disabled={disabled?true:false}>
 						<Icon name = { (status === true ) ? "ios-star":"ios-star-outline"}/>
 					</Button>
 				</View>
@@ -51,7 +55,7 @@ export default class StarRating extends Component{
 		let status = this.state.status;
 		let statusAtIndex = this.state.status['star'+index];
 
-		console.log("ban da click index " + index + " co status la : " + status);
+		//console.log("ban da click index " + index + " co status la : " + status);
 		/*
 		if status of index is true de-select the behind elenment
 		if status of index is false select from the first to the current element

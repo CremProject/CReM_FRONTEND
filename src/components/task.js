@@ -33,16 +33,14 @@ export default class Task extends Component{
         super(props);
         // Date constructor
         this.today = new Date();
-        //get config url
-        this.HOST = config.HOST;
-        this.PORT = config.PORT;
         this.state = {
             starSelected : 0,
             title : '',
-            date : '',
+            date : this.today,
             assign : '',
             description : '',
             employee_id : '',
+            task_id : '',
             //support for autoComplete
             searched : [],
             loadcomplete : false,
@@ -61,6 +59,27 @@ export default class Task extends Component{
         navigator : React.PropTypes.object,
 		user_id : React.PropTypes.number,
     };
+    componentWillMount(){
+        if(this.props.data != null){
+            let star = parseInt(this.props.data.priority);
+            let id = this.props.data.id;
+            let user_id = this.props.user_id;
+            let employee_id = this.props.data.employee_id;
+            let title = this.props.data.title;
+            let date = this.props.data.start_time;
+            let description = this.props.data.description;
+            this.setState({
+                starSelected : star,
+                task_id : id,
+                user_id : user_id,
+                employee_id : employee_id,
+                title :  title,
+                date :  date,
+                description : description,
+                priority : star
+            });
+        }
+    }
 	render(){
 		if(this.props.data == null){
             return(
@@ -119,11 +138,11 @@ export default class Task extends Component{
         					</View>
         					<View>
                                 <View name = "taskAttachments" style = {taskStyle.taskAttachments}>
-                                    <Text style ={{fontFamily: 'VNFComicSans'}}>Attachments(Optional)</Text>
-                                    <View>
-                                        {/* <Image source = {require('../../images/attachment.png')}
-                                            style={{marginRight : 5}}>
-                                        </Image> */}
+                                    <View style={{flex :1 ,flexDirection : 'row'}}>
+                                        <Text style ={{fontFamily: 'VNFComicSans'}}>Attachments</Text>
+                                        <Button transparent>
+                                            <FA name = "paperclip" size ={30}/>
+                                        </Button>
                                     </View>
             					</View>
                             </View>
@@ -164,9 +183,15 @@ export default class Task extends Component{
                                     />
                                 </View>
                                 <View name = "iconAddon" style = {taskStyle.iconAddon}>
-                                    <Image source =  {require('../../images/attachment.png')} />
-                                    <Image source =  {require('../../images/at.png')} />
-                                    <Image source =  {require('../../images/smile.png')} />
+                                    <Button transparent>
+                                        <FA name = "paperclip" size ={20}/>
+                                    </Button>
+                                    <Button transparent>
+                                        <FA name = "at" size ={20}/>
+                                    </Button>
+                                    <Button transparent>
+                                        <FA name = "smile-o" size ={20}/>
+                                    </Button>
                                 </View>
                             </View>
                         </View>
@@ -181,17 +206,21 @@ export default class Task extends Component{
 
             let title = this.props.data.name;
             let description = this.props.data.description ;
+
             description = typeof description === 'undefined' ? "Không có mô tả"  : description;
             console.log("detail : "+description);
 
             console.log("Update Task");
+
             return(
                 <View name = "taskContainer" style = {taskStyle.taskContainer}>
                     <View name = "taskHeader" style = {taskStyle.taskHeader}>
                         <View name = "taskPriory" style = {taskStyle.taskPriory}>
                             <StarRating
                                 numOfStar = {4}
+                                selected = {this.state.starSelected}
                                 onClick = {(selected)=>this.getSelected(selected)}
+                                disable = {true}
                             />
         				</View>
         				<View name = "rowtaskTitle" style = {taskStyle.rowtaskTitle}>
@@ -230,25 +259,40 @@ export default class Task extends Component{
                                 <Text style ={{fontFamily: 'VNFComicSans'}}>
                                     Attachments(Optional)
                                 </Text>
-                                {/* Thêm nút done */}
+                                <View style={{flex : 1,flexDirection : 'row'}}>
+                                    <Button transparent>
+                                        <FA name = "picture-o" size ={20}/>
+                                    </Button>
+                                    <Button transparent>
+                                        <FA name = "file" size ={20}/>
+                                    </Button>
+                                    <Button transparent>
+                                        <FA name = "file-pdf-o" size ={20}/>
+                                    </Button>
+                                </View>
                                 <View>
-                                    {/* <Image source = {require('../../images/attachment.png')}
-                                        style={{marginRight : 5}}>
-                                    </Image> */}
+                                    <Button block style = {{margin : 2,backgroundColor :'cyan'}}
+                                        onPress = {()=>this.updateTask()}>
+                                        <Text style ={{fontFamily: 'VNFComicSans'}}>
+                                            <FA name="check-square-o" size={20} />
+                                            DONE
+                                        </Text>
+                                    </Button>
                                 </View>
         					</View>
         				</View>
         				<View name = "taskAction" style = {taskStyle.taskAction}>
                             <View name = "actionSave" style = {taskStyle.actionSave}>
-                                <Button block success style = {{margin : 2}}
+                                <Button block style = {{margin : 2,backgroundColor :'gray'}}
                                     onPress = {()=>this.saveTask()}>
                                     <Text style ={{fontFamily: 'VNFComicSans'}}>
-                                        SAVE
+                                        <FA name="pause" size={20} />
+                                        WAIT FOR
                                     </Text>
                                 </Button>
         					</View>
         					<View name = "actionCancel" style = {taskStyle.actionCancel}>
-        						<Button block danger  style = {{margin : 2}}
+        						<Button block style = {{margin : 2,backgroundColor :'gray'}}
                                     onPress = {()=>this.props.navigator.push({
                                         index : 1,
                                         passProps : {
@@ -256,7 +300,8 @@ export default class Task extends Component{
                                         }
                                     })}>
                                     <Text style ={{fontFamily: 'VNFComicSans'}}>
-                                        CANCEL
+                                        <FA name="exchange" size={20} />
+                                        LATER
                                     </Text>
                                 </Button>
         					</View>
@@ -274,9 +319,15 @@ export default class Task extends Component{
                                     />
                                 </View>
                                 <View name = "iconAddon" style = {taskStyle.iconAddon}>
-                                    <Image source =  {require('../../images/attachment.png')} />
-                                    <Image source =  {require('../../images/at.png')} />
-                                    <Image source =  {require('../../images/smile.png')} />
+                                    <Button transparent>
+                                        <FA name = "paperclip" size ={20}/>
+                                    </Button>
+                                    <Button transparent>
+                                        <FA name = "at" size ={20}/>
+                                    </Button>
+                                    <Button transparent>
+                                        <FA name = "smile-o" size ={20}/>
+                                    </Button>
                                 </View>
                             </View>
                         </View>
@@ -285,6 +336,9 @@ export default class Task extends Component{
     		);
         }
 	}
+    componentDidMount(){
+        console.log("date cua task la : "+this.state.date);
+    }
     setDate(date){
         console.log("task Date : "+date);
         console.log(typeof date);
@@ -294,14 +348,14 @@ export default class Task extends Component{
         console.log(this.state.date);
     }
     saveTask(){
-        console.log("Thong tin task da nhap gom : ");
+        console.log("Thong tin task da nhap gom : " + this.state.user_id);
         var data = {
             user_id : this.props.user_id,
-            employee_id : this.state.user_id,
+            employee_id : this.state.employee_id || this.props.user_id,
             title :  this.state.title,
             start_time :  this.state.date,
             description : this.state.description,
-            priority : 1
+            priority : this.state.starSelected
         };
         //xu ly gui len server luu thong tin task
         // let check = this.validate(data);
@@ -316,6 +370,20 @@ export default class Task extends Component{
         console.log("request len server thoi");
         //goi Ham request du lieu len server
         this.insertNewTask(data);
+    }
+    updateTask(){
+        console.log("Thong tin task da nhap gom : " + this.state.user_id);
+        var data = {
+            user_id : this.state.user_id,
+            employee_id : this.state.employee_id,
+            title :  this.state.title,
+            start_time :  this.state.date,
+            description : this.state.description,
+            priority : this.state.priority,
+            task_id : this.state.task_id,
+            state : "done",
+        };
+        this.updateTaskToServer(data);
     }
     validate(data){
         let title = data.title;
@@ -335,7 +403,8 @@ export default class Task extends Component{
     }
     async insertNewTask(data){
         console.log("da vao insertNewTask");
-        var URL = this.HOST + ":" + this.PORT; //like it http://10.0.3.6:8880
+        var URL = config.HOST + ":" + config.PORT; //like it http://10.0.3.6:8880
+        //var URL = config.HOST2;
         subURL = "/api/task/create/";
 
         //get full URL
@@ -362,7 +431,52 @@ export default class Task extends Component{
             var result = await responseJson.result
             console.log("ket qua truy van : "+result);
             if(result === 'OK'){
-                ()=>this.props.navigator.pop();
+                //xử lý chưa triệt để khi save thành c6ng !
+                this.props.navigator.pop();
+                this.props.navigator.refresh();
+            }
+        }catch(err){
+            console.log(err.toString());
+        }
+    }
+    async updateTaskToServer(data){
+        console.log("da vao insertNewTask");
+        var URL = config.HOST + ":" + config.PORT; //like it http://10.0.3.6:8880
+        //var URL = config.HOST2;
+        subURL = "/api/task/write/";
+
+        //get full URL
+        URL += subURL ;
+        console.log(URL);
+        var body = JSON.stringify({
+            jsonrpc :"2.0",
+            method:"call",
+            id: new Date().getUTCMilliseconds(),
+            params: data
+        });
+        console.log("body gui di la : " + body);
+        try {
+            let response = await fetch(URL, {
+                method: 'post',
+                dataType: 'json',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+                body: body
+            });
+            let responseJson = await response.json();
+            var result = await responseJson.result
+            console.log("ket qua truy van : "+result);
+            if(result === 'OK'){
+                // this.props.navigator.push({
+                //     index : 1,
+                //     passProps:{
+                //         user_id : this.state.user_id
+                //     }
+                // });
+                this.props.navigator.pop();
+                //this.props.navigator.refresh();
             }
         }catch(err){
             console.log(err.toString());
