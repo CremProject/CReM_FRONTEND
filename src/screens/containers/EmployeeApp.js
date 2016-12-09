@@ -33,13 +33,13 @@ export default class EmployeeApp extends Component{
                 <Header searchBar rounded>
                     <InputGroup>
                         <Icon name="ios-search" />
-                        <Input placeholder="Search" />
+                        <Input />
                         <Button transparent onPress = {()=>this.NewTask()}>
                             <Icon name='ios-create'/>
                         </Button>
                     </InputGroup>
                     <Button transparent>
-                        Search
+                        <Text style ={{fontFamily: 'VNFComicSans'}}>SEARCH</Text>
                     </Button>
                 </Header>
                 <ScrollableTabView
@@ -59,12 +59,12 @@ export default class EmployeeApp extends Component{
                     </ScrollView>
                     <ScrollView tabLabel="ios-calendar" style={styles.tabView}>
                       <View style={styles.card}>
-                        <Text>Lịch</Text>
+                        <Text style ={{fontFamily: 'VNFComicSans'}}>Lịch</Text>
                       </View>
                     </ScrollView>
                     <ScrollView tabLabel="md-arrow-round-forward" style={styles.tabView}>
                       <View style={styles.card}>
-                        <Text>Forward</Text>
+                        <Text style ={{fontFamily: 'VNFComicSans'}}>Forward</Text>
                       </View>
                     </ScrollView>
                 </ScrollableTabView>

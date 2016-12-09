@@ -15,20 +15,13 @@ import { Container, Header, Title, Content, Footer, FooterTab, Button, Icon,Inpu
 import * as Progress from 'react-native-progress';
 import config from '../../../config.json';
 import styles from '../../../style/styles.js';
-var data = [
-  {id:'1',employee_Name:'Dang Thi Hue',parts_Name:'Thu ngan',progress:0.8},
-  {id:'2',employee_Name:'Phan Cong Hau',parts_Name:'Bep',progress:0.4},
-  {id:'3',employee_Name:'Trinh Thanh Tai',parts_Name:'Bep',progress:0.8},
-  {id:'4',employee_Name:'Phan Tuan',parts_Name:'Bep',progress:0.6},
-];
 export default class ManagerHome extends Component{
     constructor(props){
         super(props);
         console.log("vao ManagerHomeListView");
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state={
-          dataSource: this.ds.cloneWithRows(data),
-          dataset : [],
+          dataSource: [],
           loading: true,
           error: false,
           notification : true,
@@ -88,7 +81,7 @@ export default class ManagerHome extends Component{
                         </View>
                         <ScrollView style={styles.bodyList}>
                             <ListView
-                              dataSource={this.state.dataSource}
+                              dataSource={this.ds.cloneWithRows(this.state.dataSource)}
                               renderRow={this.renderRow.bind(this)}
                               enableEmptySections={true}
                             />
@@ -109,19 +102,19 @@ export default class ManagerHome extends Component{
                    <Progress.Bar progress = {Item.progress} width={100} />
                 </View>
                 <View style={{flex:1/10}}>
-                   <Button transparent onPress = {()=>this.showDetail(Item.id)}>
+                   <Button transparent onPress = {()=>this.showDetail(Item.id,Item.employee_Name,Item.parts_Name)}>
                        <Icon name = "ios-information-circle" />
                    </Button>
                 </View>
             </View>
         );
     }
-    showDetail(id){
+    showDetail(id,employee_Name,parts_Name){
         console.log("ID employee_id : "+ id);
     	this.props.navigator.push(
         	{
-        	    index : 1,
-        	    passProps:{user_id : id}
+        	    index : 7,
+        	    passProps:{user_id : id,employee_Name: employee_Name,parts_Name:parts_Name}
         	}
     	);
     }
@@ -158,15 +151,21 @@ export default class ManagerHome extends Component{
                         dataset.push(responseJson.dataset[i]);
                     }
                     this.setState({
-                     dataSource : this.ds.cloneWithRows(dataset),
-                     dataset : dataset,
+                     dataSource : dataset,
                      loading:false
                     });
+                }
+                else {
+                  this.setState({
+                    loading: false,
+                  });
                 }
                 console.log(responseJson.dataset);
            }
            else {
-
+             this.setState({
+               loading: false,
+             });
            }
 
         }catch(error){

@@ -75,20 +75,17 @@ export default class Login extends Component{
         var index = 0;
         switch (username) {
             case "BOD":{
-                //user_id = 1;
-                user_id = 5;
+                user_id = 1;
                 index = 3;
                 break;
             }
             case "MANAGER":{
-                //user_id = 6;
-                user_id = 3;
+                user_id = 6;
                 index = 2;
                 break;
             }
             default:{
-                //user_id = 5;
-                user_id =  1;
+                user_id =  5;
                 index = 1;
                 this.setState({
                     checkLogin : false

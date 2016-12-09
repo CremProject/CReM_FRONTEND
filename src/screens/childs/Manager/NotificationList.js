@@ -97,13 +97,14 @@ export default class NotificationList extends Component{
                   <CheckBox checked={checked} />
                 </View>
                 <Text style={{flex:3/20,textAlign:'center'}}>{Item.title}</Text>
-                <View style={{flex:4/20}}>
+                <View style={{flex:4/20,paddingRight:10}}>
                 <StarRating
                     numOfStar = {4}
                     selected = {Item.priority}
+                    disable = {true}
                 />
                 </View>
-                <View style={{flex:4/20,alignItems: 'center',flexDirection:'row',padding:5}}>
+                <View style={{flex:4/20,alignItems: 'center',flexDirection:'row',paddingLeft:5}}>
                   <Button transparent style={{flex:1/3,alignItems: 'center'}}>
                       <Icon name = 'ios-call'/>
                   </Button>
@@ -162,6 +163,11 @@ export default class NotificationList extends Component{
                      dataSource : dataset,
                      loading:false
                     });
+                }
+                else {
+                  this.setState({
+                    loading: false,
+                  });
                 }
                 console.log(responseJson.dataset);
            }
