@@ -15,16 +15,32 @@ import { Container, Header, Title,
  } from 'native-base';
 import taskStyle from '../style/taskStyle.js';
 import config from '../config.json';
+import StarRating from './StarRating.js';
 const FA = require  ('react-native-vector-icons/FontAwesome');
+
+//test autoComplete
+const data = [
+    {name : 'Phat Nguyen',id : '13520604'},
+    {name : 'Tai Nguyen',id : '13520757'}
+];
+
 export default class Notification extends Component{
     constructor(props) {
         super(props);
         this.state = {
+            starSelected : 0,
             title : '',
             assign : '',
             description : '',
             placeholder_description : this.props.user_id == 6 ? "Nhân viên/@BOD" : "@Nhà hàng",
         };
+
+        //support for autoComplete
+        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.clickData = this.clickData.bind(this);
+        this.renderRowAutoComplete = this.renderRowAutoComplete.bind(this);
+        this.autoComplete = this.autoComplete.bind(this);
+        this.findData = this.findData.bind(this);
     }
 	render(){
 		return(
@@ -33,28 +49,22 @@ export default class Notification extends Component{
                     <H3 style = {{
                         justifyContent : 'center',
                         alignSelf : 'center',
-                        marginTop : 2
+                        marginTop : 2,
+                        fontFamily: 'VNFComicSans'
                         }}>
                         CẢNH BÁO
                     </H3>
                     <View name = "taskPriory" style = {taskStyle.taskPriory}>
-                        <Button transparent>
-                            <Icon name = 'ios-star'/>
-                        </Button>
-                        <Button transparent>
-                            <Icon name = 'ios-star'/>
-                        </Button>
-                        <Button transparent>
-                            <Icon name = 'ios-star'/>
-                        </Button>
-                        <Button transparent>
-                            <Icon name = 'ios-star'/>
-                        </Button>
+                        <StarRating
+                            numOfStar = {4}
+                            onClick = {(selected)=>this.getSelected(selected)}
+                        />
     				</View>
     				<View name = "rowtaskTitle" style = {taskStyle.rowtaskTitle}>
     					<View name = "taskTitle" style = {taskStyle.taskTitle}>
-    						<TextInput placeholder = "Tiêu đề"
-                                style={{textAlignVertical: 'top'}}
+    						<Input placeholder = "Tiêu đề"
+                                style={{textAlignVertical: 'top',
+                                        fontFamily: 'VNFComicSans'}}
                                 value = {this.state.title}
                                 onChangeText = {
                                     (text)=>this.setState({title : text})}
@@ -62,32 +72,43 @@ export default class Notification extends Component{
     					</View>
     				</View>
                     <View name = "taskAssign" style = {taskStyle.taskAssign}>
-    					<TextInput placeholder = {this.state.placeholder_description}
-                            maxWidth = {350}
+                        <Input placeholder = {this.state.placeholder_description}
                             value = {this.state.assign}
-                            onChangeText = {(text)=>this.setState({assign : text})}
+                            onChangeText = {(text)=>this.autoComplete(text)}
+                            style ={{fontFamily: 'VNFComicSans'}}
                         />
-    				</View>
+                        {this.state.loadcomplete &&
+                            <ListView
+                                dataSource={this.ds.cloneWithRows(this.state.searched)}
+                                renderRow={this.renderRowAutoComplete}
+                                renderSeparator={this.renderSeparator}
+                                enableEmptySections={true}
+                            />
+                        }
+                    </View>
                 </View>
 
                 <View name = "taskContent" style = {taskStyle.taskContent}>
                     <View name = "taskDescription" style = {taskStyle.taskDescription}>
-                        <TextInput placeholder = "Mô tả" multiline = {true}
-                            numberOfLines = {6}
+                        <TextInput placeholder = "Description"
+                            multiline = {true}
+                            numberOfLines = {4}
                             style={{textAlignVertical: 'top'}}
                             value = {this.state.description}
                             onChangeText = {(text)=>this.setState({description : text})}
+                            style ={{fontFamily: 'VNFComicSans',textAlignVertical : 'top'}}
                         />
                     </View>
     				<View name = "taskOptional" style = {taskStyle.taskOptional}>
     					<View name = "taskChecklist" style = {taskStyle.taskChecklist}>
-                            <Text>Checklist(Otional)</Text>
+                            <Text style ={{fontFamily: 'VNFComicSans'}}>Checklist(Otional)</Text>
     					</View>
     					<View name = "taskAttachments" style = {taskStyle.taskAttachments}>
-                            <Text>Attachments</Text>
-                            <View>
-                                <Image source = {require('../../images/attachment.png')}>
-                                </Image>
+                            <View style={{flex :1 ,flexDirection : 'row'}}>
+                                <Text style ={{fontFamily: 'VNFComicSans'}}>Attachments</Text>
+                                <Button transparent>
+                                    <FA name = "paperclip" size ={30}/>
+                                </Button>
                             </View>
     					</View>
     				</View>
@@ -95,7 +116,9 @@ export default class Notification extends Component{
     					<View name = "actionSave" style = {taskStyle.actionSave}>
                             <Button block success style = {{margin : 2}}
                                 onPress = {()=>this.saveWarning()}>
-                                SAVE
+                                <Text style ={{fontFamily: 'VNFComicSans'}}>
+                                    SAVE
+                                </Text>
                             </Button>
     					</View>
     					<View name = "actionCancel" style = {taskStyle.actionCancel}>
@@ -106,7 +129,9 @@ export default class Notification extends Component{
                                         user_id : this.props.user_id
                                     }
                                 })}>
-                                CANCEL
+                                <Text style ={{fontFamily: 'VNFComicSans'}}>
+                                    CANCEL
+                                </Text>
                             </Button>
     					</View>
     				</View>
@@ -197,4 +222,67 @@ export default class Notification extends Component{
             return false;
         }
     }
+    getSelected(selected){
+        console.log("Dang o UpdateTask.js "+ selected);
+        this.setState({
+            starSelected : selected,
+        });
+    }
+    //support for autoComplete
+    renderRowAutoComplete(data){
+        return (
+            <View style ={{flex :1 ,flexDirection : 'row'}}>
+                <TouchableOpacity
+                    style ={{alignItems : 'flex-start'}}
+                    onPress = {()=>{this.clickData(data)}}>
+                    <View>
+                        <Text style ={{fontFamily: 'VNFComicSans'}}>{data.name}</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+    renderSeparator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
+        return (
+          <View
+            key={`${sectionID}-${rowID}`}
+            style={{
+              height: adjacentRowHighlighted ? 4 : 1,
+              backgroundColor: adjacentRowHighlighted ? '#3B5998' : '#CCCCCC',
+            }}
+          />
+        );
+    }
+    clickData(data){
+        console.log("onClick !!" + data.id);
+        this.setState({
+            assign : data.name,
+            employee_id : data.id,
+            loadcomplete : false,
+        });
+    }
+    autoComplete(text){
+        //xử lý lấy searched[]
+        search = this.findData(text);
+        console.log(search);
+        this.setState({
+            assign : text,
+            loadcomplete : true,
+            searched : search,
+        });
+    }
+    findData(query) {
+        var result = [];
+        if (query === '') {
+          result = [];
+        }
+        if(query.indexOf('@')=== 0){
+            query = query.substr(1).toLowerCase().trim();
+            result = data.filter(item => item.name.toLowerCase().indexOf(query) > -1);
+        }else{
+            result = [];
+        }
+        return result;
+    }
+    // END OF AUTO COMPLETE
 }

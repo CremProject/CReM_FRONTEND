@@ -33,10 +33,11 @@ export default class Task extends Component{
         super(props);
         // Date constructor
         this.today = new Date();
+        console.log(this.today);
         this.state = {
             starSelected : 0,
             title : '',
-            date : this.today,
+            date : '',
             assign : '',
             description : '',
             employee_id : '',
@@ -100,7 +101,7 @@ export default class Task extends Component{
                                 />
         					</View>
                             <View name = "taskDate" style = {taskStyle.taskDate}>
-                                <MyDatePicker datevalue = {this.today}
+                                <MyDatePicker
                                     onChange = {(datevalue)=>this.setDate(datevalue)}
                                 />
         					</View>
@@ -126,7 +127,6 @@ export default class Task extends Component{
                             <TextInput placeholder = "Description"
                                 multiline = {true}
                                 numberOfLines = {4}
-                                style={{textAlignVertical: 'top'}}
                                 value = {this.state.description}
                                 onChangeText = {(text)=>this.setState({description : text})}
                                 style ={{fontFamily: 'VNFComicSans',textAlignVertical : 'top'}}
@@ -348,10 +348,10 @@ export default class Task extends Component{
         console.log(this.state.date);
     }
     saveTask(){
-        console.log("Thong tin task da nhap gom : " + this.state.user_id);
+        console.log("Thong tin task da nhap gom : " + this.props.user_id);
         var data = {
             user_id : this.props.user_id,
-            employee_id : this.state.employee_id || this.props.user_id,
+            employee_id : 1,
             title :  this.state.title,
             start_time :  this.state.date,
             description : this.state.description,
@@ -372,9 +372,9 @@ export default class Task extends Component{
         this.insertNewTask(data);
     }
     updateTask(){
-        console.log("Thong tin task da nhap gom : " + this.state.user_id);
+        console.log("Thong tin task da nhap gom : " + this.props.user_id);
         var data = {
-            user_id : this.state.user_id,
+            user_id : this.props.user_id,
             employee_id : this.state.employee_id,
             title :  this.state.title,
             start_time :  this.state.date,
@@ -428,12 +428,17 @@ export default class Task extends Component{
                 body: body
             });
             let responseJson = await response.json();
-            var result = await responseJson.result
-            console.log("ket qua truy van : "+result);
+            let result = await responseJson.result;
+            //console.log("ket qua truy van : "+result);
             if(result === 'OK'){
+                console.log("resul ok user_id" + this.props.user_id);
                 //xử lý chưa triệt để khi save thành c6ng !
-                this.props.navigator.pop();
-                this.props.navigator.refresh();
+                this.props.navigator.push({
+                    index : 1,
+                    passProps:{
+                        user_id : this.props.user_id
+                    }
+                });
             }
         }catch(err){
             console.log(err.toString());
@@ -466,17 +471,16 @@ export default class Task extends Component{
                 body: body
             });
             let responseJson = await response.json();
-            var result = await responseJson.result
+            let result = await responseJson.result;
             console.log("ket qua truy van : "+result);
-            if(result === 'OK'){
-                // this.props.navigator.push({
-                //     index : 1,
-                //     passProps:{
-                //         user_id : this.state.user_id
-                //     }
-                // });
-                this.props.navigator.pop();
-                //this.props.navigator.refresh();
+            if(result != "ERROR"){
+                console.log("nhay vao if voi result = " + result);
+                this.props.navigator.push({
+                    index : 1,
+                    passProps:{
+                        user_id : this.props.user_id
+                    }
+                });
             }
         }catch(err){
             console.log(err.toString());
