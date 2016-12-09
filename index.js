@@ -25,7 +25,7 @@ import NewTask from './src/screens/childs/templates/NewTask.js';
 import UpdateTask from './src/screens/childs/templates/UpdateTask.js';
 import NewNotification from './src/screens/childs/templates/NewNotification.js';
 import Login from './src/screens/childs/templates/Login.js';
-
+import NotificationList from './src/screens/childs/Manager/NotificationList.js';
 
 export default class CReM_FRONTEND extends Component {
     constructor(props){
@@ -88,6 +88,14 @@ export default class CReM_FRONTEND extends Component {
                     />
                 );
                 break;
+            }
+            case 6:{
+              return(
+                <NotificationList navigator = {navigator}
+                                  user_id = {route.passProps.user_id}
+                />
+              );
+              break;
             }
             default:{
                 return (<Login navigator = {navigator}/>);
