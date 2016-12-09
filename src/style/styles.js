@@ -121,4 +121,25 @@ export default StyleSheet.create({
       shadowOpacity: 0.5,
       shadowRadius: 3,
     },
+    headerList:{
+      flex:1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      padding: 10,
+      backgroundColor: '#A4A4A4',
+      borderBottomColor: 'black',
+      borderBottomWidth: 1,
+    },
+    bodyList:{
+      flex:1
+    },
+    bodyDetail:{
+      flex:1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      padding: 5,
+      backgroundColor: '#FFFFFF',
+      borderBottomColor: 'black',
+      borderBottomWidth: 1,
+    },
 });

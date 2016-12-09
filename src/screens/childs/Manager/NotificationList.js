@@ -11,24 +11,19 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Icon,InputGroup,
-  Input,H3} from 'native-base';
+  Input,H3,CheckBox} from 'native-base';
 import * as Progress from 'react-native-progress';
 import config from '../../../config.json';
 import styles from '../../../style/styles.js';
-var data = [
-  {id:'1',employee_Name:'Dang Thi Hue',parts_Name:'Thu ngan',progress:0.8},
-  {id:'2',employee_Name:'Phan Cong Hau',parts_Name:'Bep',progress:0.4},
-  {id:'3',employee_Name:'Trinh Thanh Tai',parts_Name:'Bep',progress:0.8},
-  {id:'4',employee_Name:'Phan Tuan',parts_Name:'Bep',progress:0.6},
-];
-export default class ManagerHome extends Component{
+import StarRating from '../../../components/StarRating.js';
+
+export default class NotificationList extends Component{
     constructor(props){
         super(props);
-        console.log("vao ManagerHomeListView");
+        console.log("vao NotificationList");
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state={
-          dataSource: this.ds.cloneWithRows(data),
-          dataset : [],
+          dataSource: [],
           loading: true,
           error: false,
           notification : true,
@@ -63,32 +58,21 @@ export default class ManagerHome extends Component{
                     <Button onPress = {()=>this.props.navigator.pop()}>
                         <Icon name = 'ios-arrow-back'/>
                     </Button>
-                    <Title>Manager Home</Title>
+                    <Title>Notification</Title>
                 </Header>
                 <Content>
-                  <Button transparent onPress={()=>{this.props.navigator.push({index: 6 , passProps: { user_id:this.props.user_id } })}}>
-                    <Icon name="ios-warning"/>
-                  </Button>
-                    { this.state.notification &&
-                        <View name = "notification" style = {styles.notification}>
-                          <View style={{alignSelf : 'flex-end'}}>
-                              <Button onPress = {()=>{this.setState({notification : false});}}>
-                                  <Icon name="ios-close"/>
-                              </Button>
-                          </View>
-                          <H3>Notification</H3>
-                        </View>
-                    }
                     <View style={{flexDirection: 'column'}}>
                         <View style={styles.headerList}>
-                            <Text style={{flex:4/10,textAlign:'center'}}>Nhân viên</Text>
-                            <Text style={{flex:2/10,textAlign:'center'}}>Bộ phận</Text>
-                            <Text style={{flex:3/10,textAlign:'center'}}>Tình trạng</Text>
-                            <Text style={{flex:1/10,textAlign:'center'}}></Text>
+                            <Text style={{flex:4/20,textAlign:'center'}}>Người tạo</Text>
+                            <Text style={{flex:4/20,textAlign:'center'}}>Thời gian</Text>
+                            <Text style={{flex:1/20,textAlign:'center'}}></Text>
+                            <Text style={{flex:3/20,textAlign:'center'}}>Nội dung</Text>
+                            <Text style={{flex:4/20,textAlign:'center'}}>Ưu tiên</Text>
+                            <Text style={{flex:4/20,textAlign:'center'}}></Text>
                         </View>
                         <ScrollView style={styles.bodyList}>
                             <ListView
-                              dataSource={this.state.dataSource}
+                              dataSource={this.ds.cloneWithRows(this.state.dataSource)}
                               renderRow={this.renderRow.bind(this)}
                               enableEmptySections={true}
                             />
@@ -101,17 +85,34 @@ export default class ManagerHome extends Component{
     componentDidMount(){
     }
     renderRow(Item){
+      let checked = true;
+      if(Item.status==='draft'){
+        checked = false
+      }
         return(
             <View style={styles.bodyDetail}>
-                <Text style={{flex:4/10,textAlign:'center'}}>{Item.employee_Name}</Text>
-                <Text style={{flex:2/10,textAlign:'center'}}>{Item.parts_Name}</Text>
-                <View style={{flex:3/10,alignItems: 'center'}}>
-                   <Progress.Bar progress = {Item.progress} width={100} />
+                <Text style={{flex:4/20,textAlign:'center'}}>{Item.employee_name}</Text>
+                <Text style={{flex:4/20,textAlign:'center'}}>{Item.start_time}</Text>
+                <View style={{flex:1/20,alignItems: 'center'}}>
+                  <CheckBox checked={checked} />
                 </View>
-                <View style={{flex:1/10}}>
-                   <Button transparent onPress = {()=>this.showDetail(Item.id)}>
-                       <Icon name = "ios-information-circle" />
-                   </Button>
+                <Text style={{flex:3/20,textAlign:'center'}}>{Item.title}</Text>
+                <View style={{flex:4/20}}>
+                <StarRating
+                    numOfStar = {4}
+                    selected = {Item.priority}
+                />
+                </View>
+                <View style={{flex:4/20,alignItems: 'center',flexDirection:'row',padding:5}}>
+                  <Button transparent style={{flex:1/3,alignItems: 'center'}}>
+                      <Icon name = 'ios-call'/>
+                  </Button>
+                  <Button transparent style={{flex:1/3,alignItems: 'center'}}>
+                      <Icon name = 'ios-megaphone'/>
+                  </Button>
+                  <Button transparent style={{flex:1/3,alignItems: 'center'}}>
+                      <Icon name = 'ios-information-circle'/>
+                  </Button>
                 </View>
             </View>
         );
@@ -129,7 +130,7 @@ export default class ManagerHome extends Component{
     //fix lai ham nay dua vaoo api tren drive
     async connectserver(){
         console.log("call connectserver");
-        var url = config.HOST+":"+config.PORT+"/api/getstatusemp?manager_id=1"
+        var url = config.HOST+":"+config.PORT+"/api/getallnotification?manager_id=1"
         console.log(url);
         try {
           var options = {
@@ -158,15 +159,16 @@ export default class ManagerHome extends Component{
                         dataset.push(responseJson.dataset[i]);
                     }
                     this.setState({
-                     dataSource : this.ds.cloneWithRows(dataset),
-                     dataset : dataset,
+                     dataSource : dataset,
                      loading:false
                     });
                 }
                 console.log(responseJson.dataset);
            }
            else {
-
+             this.setState({
+               loading: false,
+             });
            }
 
         }catch(error){
