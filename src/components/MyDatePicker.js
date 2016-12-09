@@ -4,6 +4,7 @@ import DatePicker from 'react-native-datepicker'
 export default class MyDatePicker extends Component {
   constructor(props){
     super(props);
+    this.today = new Date();
     // var date = this.props.date;
     this.state = {date:this.props.datevalue};
     console.log("o date picker"+this.state.date);
@@ -36,4 +37,7 @@ export default class MyDatePicker extends Component {
 MyDatePicker.propTypes = {
   datevalue: React.PropTypes.object,
   onChange : React.PropTypes.func
+};
+MyDatePicker.defaultProps = {
+  datevalue : this.today
 };

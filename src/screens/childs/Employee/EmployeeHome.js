@@ -48,7 +48,7 @@ export default class EmployeeHome extends Component{
         if (error) {
           return (
             <View style={styles.center}>
-              <Text>
+              <Text style ={{fontFamily: 'VNFComicSans'}}>
                 Failed to load posts!
               </Text>
             </View>
@@ -65,11 +65,11 @@ export default class EmployeeHome extends Component{
                                       <Icon name="ios-close"/>
                                   </Button>
                               </View>
-                              <H3>Notification</H3>
+                              <H3 style ={{fontFamily: 'VNFComicSans'}}>Notification</H3>
                             </View>
                         }
                       <View name = "task" style = {styles.card} >
-                          <H3>Danh sách việc thường ngày</H3>
+                          <H3 style ={{fontFamily: 'VNFComicSans',margin : 2}}>Danh sách việc thường ngày</H3>
                           <ListView
                             dataSource={this.ds.cloneWithRows(this.state.annual)}
                             renderRow={this.renderRow}
@@ -77,7 +77,7 @@ export default class EmployeeHome extends Component{
                           />
                       </View>
                       <View name = "task" style = {styles.card} >
-                          <H3>Danh sách việc ngoài lề</H3>
+                          <H3 style ={{fontFamily: 'VNFComicSans',margin : 2}}>Danh sách việc ngoài lề</H3>
                               <ListView
                                 dataSource={this.ds.cloneWithRows(this.state.abnormal)}
                                 renderRow={this.renderRow}
@@ -85,7 +85,7 @@ export default class EmployeeHome extends Component{
                               />
                       </View>
                       <View name = "task" style = {styles.card} >
-                          <H3>Danh sách việc trì hoãn</H3>
+                          <H3 style ={{fontFamily: 'VNFComicSans',margin : 2}}>Danh sách việc trì hoãn</H3>
                           <ListView
                             dataSource={this.ds.cloneWithRows(this.state.delay)}
                             renderRow={this.renderRow}
@@ -108,7 +108,7 @@ export default class EmployeeHome extends Component{
                     {/* xu ly checkbox khi task da hoan thanh */}
                         <CheckBox checked={state === "draft" ? false : true}
                             onPress = {()=>this.onTick(data)}/>
-                        <Text>{text}</Text>
+                        <Text style ={{fontFamily: 'VNFComicSans'}}>{text}</Text>
                     </View>
                     <Text style={{flex : 4/5}}>{data.name}</Text>
                 </View>
@@ -130,7 +130,7 @@ export default class EmployeeHome extends Component{
     }
     async connectserver(){
         console.log("call connectserver");
-        var url = config.HOST+":"+config.PORT+"/api/task/getmytask?employee_id=" + this.props.user_id ;
+        var url = config.HOST+":"+config.PORT+"/api/task/getmytask?employee_id=1" ;
         //var url = config.HOST2 + "/api/task/getmytask?employee_id="+this.props.user_id;
         console.log(url);
         try {
@@ -152,9 +152,10 @@ export default class EmployeeHome extends Component{
           let response = await fetch(url,options)
           let responseJson = await response.json();
           var result = responseJson.result;
-          console.log("result:");
+          console.log("result:" + result);
            if(result==='OK'){
              if(responseJson.dataset.length > 0){
+                 console.log(responseJson.dataset);
                var _annual = [];
                var _abnormal =[];
                var _delay = [];
@@ -175,11 +176,14 @@ export default class EmployeeHome extends Component{
                  delay : _delay,
                  loading:false
                });
-             }
-             console.log(responseJson.dataset);
+           }else{
+               this.setState({
+                 error : false,
+                 loading:false
+               });
+           }
            }
            else {
-
            }
 
         }catch(error){
