@@ -429,7 +429,14 @@ export default class Task extends Component{
             });
             let responseJson = await response.json();
             let result = await responseJson.result;
-            //console.log("ket qua truy van : "+result);
+
+            this.props.navigator.push({
+                index : 1,
+                passProps:{
+                    user_id : this.props.user_id
+                }
+            });
+
             if(result === 'OK'){
                 console.log("resul ok user_id" + this.props.user_id);
                 //xử lý chưa triệt để khi save thành c6ng !

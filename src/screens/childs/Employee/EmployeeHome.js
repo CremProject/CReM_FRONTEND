@@ -138,7 +138,7 @@ export default class EmployeeHome extends Component{
     }
     async connectserver(){
         console.log("call connectserver");
-        var url = config.HOST+":"+config.PORT+"/api/task/getmytask?employee_id="+this.props.user_id ;
+        var url = config.HOST+":"+config.PORT+"/api/task/getmytask?employee_id= 3" ;
         //var url = config.HOST2 + "/api/task/getmytask?employee_id="+this.props.user_id;
         console.log(url);
         try {
