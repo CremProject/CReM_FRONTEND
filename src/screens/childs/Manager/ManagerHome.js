@@ -56,7 +56,7 @@ export default class ManagerHome extends Component{
                     <Button transparent onPress = {()=>this.props.navigator.pop()}>
                         <Icon name = 'ios-arrow-back'/>
                     </Button>
-                    <Title>Manager Home</Title>
+                    <Title style ={{fontFamily: 'VNFComicSans'}}>Manager Home</Title>
                     <Button transparent onPress = {()=>{this.props.navigator.push({
                         index : 8,
                         passProps:{
@@ -73,18 +73,18 @@ export default class ManagerHome extends Component{
                     { this.state.notification &&
                         <View name = "notification" style = {styles.notification}>
                           <View style={{alignSelf : 'flex-end'}}>
-                              <Button onPress = {()=>{this.setState({notification : false});}}>
+                              <Button transparent onPress = {()=>{this.setState({notification : false});}}>
                                   <Icon name="ios-close"/>
                               </Button>
                           </View>
-                          <H3>Notification</H3>
+                          <H3 style ={{fontFamily: 'VNFComicSans'}}>Notification</H3>
                         </View>
                     }
                     <View style={{flexDirection: 'column'}}>
                         <View style={styles.headerList}>
-                            <Text style={{flex:4/10,textAlign:'center'}}>Nhân viên</Text>
-                            <Text style={{flex:2/10,textAlign:'center'}}>Bộ phận</Text>
-                            <Text style={{flex:3/10,textAlign:'center'}}>Tình trạng</Text>
+                            <Text style={{flex:4/10,textAlign:'center',fontFamily: 'VNFComicSans'}}>Nhân viên</Text>
+                            <Text style={{flex:2/10,textAlign:'center',fontFamily: 'VNFComicSans'}}>Bộ phận</Text>
+                            <Text style={{flex:3/10,textAlign:'center',fontFamily: 'VNFComicSans'}}>Tình trạng</Text>
                             <Text style={{flex:1/10,textAlign:'center'}}></Text>
                         </View>
                         <ScrollView style={styles.bodyList}>
@@ -104,8 +104,8 @@ export default class ManagerHome extends Component{
     renderRow(Item){
         return(
             <View style={styles.bodyDetail}>
-                <Text style={{flex:4/10,textAlign:'center'}}>{Item.employee_Name}</Text>
-                <Text style={{flex:2/10,textAlign:'center'}}>{Item.parts_Name}</Text>
+                <Text style={{flex:4/10,textAlign:'center',fontFamily: 'VNFComicSans'}}>{Item.employee_Name}</Text>
+                <Text style={{flex:2/10,textAlign:'center',fontFamily: 'VNFComicSans'}}>{Item.parts_Name}</Text>
                 <View style={{flex:3/10,alignItems: 'center'}}>
                    <Progress.Bar progress = {Item.progress} width={100} />
                 </View>

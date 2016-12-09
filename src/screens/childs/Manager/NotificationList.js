@@ -46,7 +46,7 @@ export default class NotificationList extends Component{
         if (error) {
           return (
             <View style={styles.center}>
-              <Text>
+              <Text style ={{fontFamily: 'VNFComicSans'}}>
                 Failed to load posts!
               </Text>
             </View>
@@ -58,15 +58,15 @@ export default class NotificationList extends Component{
                     <Button onPress = {()=>this.props.navigator.pop()}>
                         <Icon name = 'ios-arrow-back'/>
                     </Button>
-                    <Title>Notification</Title>
+                    <Title style ={{fontFamily: 'VNFComicSans'}}>Notification</Title>
                 </Header>
                 <Content>
                     <View style={{flexDirection: 'column'}}>
                         <View style={styles.headerList}>
-                            <Text style={{flex:4/20,textAlign:'center'}}>Người tạo</Text>
-                            <Text style={{flex:4/20,textAlign:'center'}}>Thời gian</Text>
+                            <Text style={{flex:4/20,textAlign:'center',fontFamily: 'VNFComicSans'}}>Người tạo</Text>
+                            <Text style={{flex:4/20,textAlign:'center',fontFamily: 'VNFComicSans'}}>Thời gian</Text>
                             <Text style={{flex:1/20,textAlign:'center'}}></Text>
-                            <Text style={{flex:3/20,textAlign:'center'}}>Nội dung</Text>
+                            <Text style={{flex:3/20,textAlign:'center',fontFamily: 'VNFComicSans'}}>Nội dung</Text>
                             <Text style={{flex:4/20,textAlign:'center'}}>Ưu tiên</Text>
                             <Text style={{flex:4/20,textAlign:'center'}}></Text>
                         </View>
@@ -91,12 +91,12 @@ export default class NotificationList extends Component{
       }
         return(
             <View style={styles.bodyDetail}>
-                <Text style={{flex:4/20,textAlign:'center'}}>{Item.employee_name}</Text>
-                <Text style={{flex:4/20,textAlign:'center'}}>{Item.start_time}</Text>
+                <Text style={{flex:4/20,textAlign:'center',fontFamily: 'VNFComicSans'}}>{Item.employee_name}</Text>
+                <Text style={{flex:4/20,textAlign:'center',fontFamily: 'VNFComicSans'}}>{Item.start_time}</Text>
                 <View style={{flex:1/20,alignItems: 'center'}}>
                   <CheckBox checked={checked} />
                 </View>
-                <Text style={{flex:3/20,textAlign:'center'}}>{Item.title}</Text>
+                <Text style={{flex:3/20,textAlign:'center',fontFamily: 'VNFComicSans'}}>{Item.title}</Text>
                 <View style={{flex:4/20,paddingRight:10}}>
                 <StarRating
                     numOfStar = {4}

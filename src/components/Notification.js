@@ -144,7 +144,7 @@ export default class Notification extends Component{
         console.log("Thong tin task da nhap gom : ");
         var data = {
             user_id : this.props.user_id,
-            employee_id : this.props.user_id,
+            employee_id : 1,
             title :  this.state.title,
             description : this.state.description,
             priority : 1
@@ -163,9 +163,16 @@ export default class Notification extends Component{
         console.log("request len server thoi");
         //goi Ham request du lieu len server
         var check = false;
+        var index = this.props.user_id === 6 ? 8 : 1;
+        console.log(index);
         check = this.insertNewWarning(data);
         if(check){
-            this.props.navigator.pop();
+            this.props.navigator.push({
+                inndex : index,
+                passProps :{
+                    user_id : this.props.user_id,
+                }
+            });
         }else{
             console.log("Loi khi them warning");
         }

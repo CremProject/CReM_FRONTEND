@@ -61,7 +61,7 @@ export default class EmployeeHome extends Component{
                         { this.state.notification &&
                             <View name = "notification" style = {styles.notification}>
                               <View style={{alignSelf : 'flex-end'}}>
-                                  <Button onPress = {()=>{this.setState({notification : false});}}>
+                                  <Button transparent onPress = {()=>{this.setState({notification : false});}}>
                                       <Icon name="ios-close"/>
                                   </Button>
                               </View>

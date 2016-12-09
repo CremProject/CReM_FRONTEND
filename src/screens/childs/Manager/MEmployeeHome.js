@@ -63,10 +63,10 @@ export default class EmployeeHome extends Component{
                       <Title></Title>
                   </Header>
                   <Content style = {{margin : 5}}>
-                    <Text>Nhân viên: {this.props.employee_Name}</Text>
-                    <Text>Bộ phận: {this.props.parts_Name}</Text>
+                    <Text style ={{fontFamily: 'VNFComicSans'}}>Nhân viên: {this.props.employee_Name}</Text>
+                    <Text style ={{fontFamily: 'VNFComicSans'}}>Bộ phận: {this.props.parts_Name}</Text>
                       <View name = "task" style = {styles.card} >
-                          <H3>Danh sách việc thường ngày</H3>
+                          <H3 style ={{fontFamily: 'VNFComicSans'}}>Danh sách việc thường ngày</H3>
                           <ListView
                             dataSource={this.ds.cloneWithRows(this.state.annual)}
                             renderRow={this.renderRow}
@@ -74,7 +74,7 @@ export default class EmployeeHome extends Component{
                           />
                       </View>
                       <View name = "task" style = {styles.card} >
-                          <H3>Danh sách việc ngoài lề</H3>
+                          <H3 style ={{fontFamily: 'VNFComicSans'}}>Danh sách việc ngoài lề</H3>
                               <ListView
                                 dataSource={this.ds.cloneWithRows(this.state.abnormal)}
                                 renderRow={this.renderRow}
@@ -82,7 +82,7 @@ export default class EmployeeHome extends Component{
                               />
                       </View>
                       <View name = "task" style = {styles.card} >
-                          <H3>Danh sách việc trì hoãn</H3>
+                          <H3 style ={{fontFamily: 'VNFComicSans'}}>Danh sách việc trì hoãn</H3>
                           <ListView
                             dataSource={this.ds.cloneWithRows(this.state.delay)}
                             renderRow={this.renderRow}
@@ -105,7 +105,7 @@ export default class EmployeeHome extends Component{
                         <CheckBox checked={state === "draft" ? false : true}/>
                         <Text>{text}</Text>
                     </View>
-                    <Text style={{flex : 4/5}}>{data.name}</Text>
+                    <Text style={{flex : 4/5,fontFamily: 'VNFComicSans'}}>{data.name}</Text>
                 </View>
         );
     }
