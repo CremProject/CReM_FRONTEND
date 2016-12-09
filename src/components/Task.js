@@ -351,7 +351,7 @@ export default class Task extends Component{
         console.log("Thong tin task da nhap gom : " + this.props.user_id);
         var data = {
             user_id : this.props.user_id,
-            employee_id : 1,
+            employee_id : 3,
             title :  this.state.title,
             start_time :  this.state.date,
             description : this.state.description,

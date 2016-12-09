@@ -53,10 +53,18 @@ export default class ManagerHome extends Component{
         return(
             <Container>
                 <Header>
-                    <Button onPress = {()=>this.props.navigator.pop()}>
+                    <Button transparent onPress = {()=>this.props.navigator.pop()}>
                         <Icon name = 'ios-arrow-back'/>
                     </Button>
                     <Title>Manager Home</Title>
+                    <Button transparent onPress = {()=>{this.props.navigator.push({
+                        index : 8,
+                        passProps:{
+                            user_id : this.props.user_id,
+                        }
+                    })}}>
+                        <Icon name = 'ios-menu'/>
+                    </Button>
                 </Header>
                 <Content>
                   <Button transparent onPress={()=>{this.props.navigator.push({index: 6 , passProps: { user_id:this.props.user_id } })}}>

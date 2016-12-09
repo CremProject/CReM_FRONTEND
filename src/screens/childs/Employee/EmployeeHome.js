@@ -65,11 +65,13 @@ export default class EmployeeHome extends Component{
                                       <Icon name="ios-close"/>
                                   </Button>
                               </View>
-                              <H3 style ={{fontFamily: 'VNFComicSans'}}>Notification</H3>
+                              <Text style ={{fontFamily: 'VNFComicSans'}}>Notification</Text>
                             </View>
                         }
                       <View name = "task" style = {styles.card} >
-                          <H3 style ={{fontFamily: 'VNFComicSans',margin : 2}}>Danh sách việc thường ngày</H3>
+                          <Text style ={{fontFamily: 'VNFComicSans',fontSize : 15}}>
+                              Danh sách việc thường ngày
+                          </Text>
                           <ListView
                             dataSource={this.ds.cloneWithRows(this.state.annual)}
                             renderRow={this.renderRow}
@@ -77,15 +79,19 @@ export default class EmployeeHome extends Component{
                           />
                       </View>
                       <View name = "task" style = {styles.card} >
-                          <H3 style ={{fontFamily: 'VNFComicSans',margin : 2}}>Danh sách việc ngoài lề</H3>
-                              <ListView
-                                dataSource={this.ds.cloneWithRows(this.state.abnormal)}
-                                renderRow={this.renderRow}
-                                enableEmptySections={true}
-                              />
+                          <Text style ={{fontFamily: 'VNFComicSans',fontSize : 15}}>
+                              Danh sách việc ngoài lề
+                          </Text>
+                          <ListView
+                            dataSource={this.ds.cloneWithRows(this.state.abnormal)}
+                            renderRow={this.renderRow}
+                            enableEmptySections={true}
+                          />
                       </View>
                       <View name = "task" style = {styles.card} >
-                          <H3 style ={{fontFamily: 'VNFComicSans',margin : 2}}>Danh sách việc trì hoãn</H3>
+                          <Text style ={{fontFamily: 'VNFComicSans',fontSize : 15}}>
+                              Danh sách việc trì hoãn
+                          </Text>
                           <ListView
                             dataSource={this.ds.cloneWithRows(this.state.delay)}
                             renderRow={this.renderRow}
@@ -102,17 +108,19 @@ export default class EmployeeHome extends Component{
         text = text.substr(-8);
         text = text.substr(0,5);
         return(
-            <TouchableOpacity onPress = {(text)=>this.onClickItem(data)}>
-                <View style={{flex :1 ,flexDirection : 'row'}}>
-                    <View style={{flex : 1/5,flexDirection:'row',marginRight : 2}}>
-                    {/* xu ly checkbox khi task da hoan thanh */}
-                        <CheckBox checked={state === "draft" ? false : true}
-                            onPress = {()=>this.onTick(data)}/>
-                        <Text style ={{fontFamily: 'VNFComicSans'}}>{text}</Text>
+            <View>
+                <TouchableOpacity onPress = {(text)=>this.onClickItem(data)}>
+                    <View style={{flex :1 ,flexDirection : 'row'}}>
+                        <View style={{flex : 1/5,flexDirection:'row',marginRight : 10}}>
+                        {/* xu ly checkbox khi task da hoan thanh */}
+                            <CheckBox checked={state === "draft" ? false : true}
+                                onPress = {()=>this.onTick(data)}/>
+                            <Text style ={{fontFamily: 'VNFComicSans',marginLeft : 5}}>{text}</Text>
+                        </View>
+                        <Text style={{flex : 4/5,marginLeft : 5}}>{data.name}</Text>
                     </View>
-                    <Text style={{flex : 4/5}}>{data.name}</Text>
-                </View>
-            </TouchableOpacity>
+                </TouchableOpacity>
+            </View>
         );
     }
     onClickItem(data){
@@ -130,7 +138,7 @@ export default class EmployeeHome extends Component{
     }
     async connectserver(){
         console.log("call connectserver");
-        var url = config.HOST+":"+config.PORT+"/api/task/getmytask?employee_id=1" ;
+        var url = config.HOST+":"+config.PORT+"/api/task/getmytask?employee_id="+this.props.user_id ;
         //var url = config.HOST2 + "/api/task/getmytask?employee_id="+this.props.user_id;
         console.log(url);
         try {

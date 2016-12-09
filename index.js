@@ -15,7 +15,7 @@ import {
 import EmployeeApp from './src/screens/containers/EmployeeApp.js';
 import EmployeeHome from './src/screens/childs/Employee/EmployeeHome.js';
 
-//import ManagerApp from './src/screens/containers/ManagerApp.js';
+import ManagerApp from './src/screens/containers/ManagerApp.js';
 import ManagerHome from './src/screens/childs/Manager/ManagerHome.js';
 
 //import BODApp from './src/screens/containers/BODApp.js';
@@ -105,6 +105,15 @@ export default class CReM_FRONTEND extends Component {
                   user_id = {route.passProps.user_id}
                   employee_Name = {route.passProps.employee_Name}
                   parts_Name = {route.passProps.parts_Name}
+                />
+              )
+              break;
+            }
+            case 8:{
+              return(
+                <ManagerApp
+                  navigator = {navigator}
+                  user_id = {route.passProps.user_id}
                 />
               )
               break;
